@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="p-4">
+    <div class="p-4 sm:p-0">
         <RouterView />
     </div>
 </template>
