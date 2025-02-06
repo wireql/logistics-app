@@ -1,12 +1,16 @@
 <script setup>
-import Cars from '@/components/Icons/cars.vue';
-import Employees from '@/components/Icons/employees.vue';
-import Home from '@/components/Icons/home.vue';
-import Notify from '@/components/Icons/notify.vue';
-import Quit from '@/components/Icons/quit.vue';
-import Settings from '@/components/Icons/settings.vue';
-import SideDashboard from '@/components/Icons/sideDashboard.vue';
-import Tasks from '@/components/Icons/tasks.vue';
+    import Cars from '@/components/Icons/cars.vue';
+    import Employees from '@/components/Icons/employees.vue';
+    import Home from '@/components/Icons/home.vue';
+    import Notify from '@/components/Icons/notify.vue';
+    import Quit from '@/components/Icons/quit.vue';
+    import Settings from '@/components/Icons/settings.vue';
+    import SideDashboard from '@/components/Icons/sideDashboard.vue';
+    import Tasks from '@/components/Icons/tasks.vue';
+
+    import { useAuthStore } from '@/stores/auth';
+
+    const authStore = useAuthStore()
 </script>
 
 <template>
@@ -70,8 +74,8 @@ import Tasks from '@/components/Icons/tasks.vue';
             <div class="flex items-center gap-[15px]">
                 <div class="w-[24px] h-[24px] rounded-full bg-dark-50"></div>
                 <div class="flex flex-col gap-[5px]">
-                    <div class="text-sm font-bold">Дмитрий Батькович</div>
-                    <div class="text-xs">email@email.ru</div>
+                    <div class="text-sm font-bold">{{ authStore.user.first_name }} {{ authStore.user.last_name }}</div>
+                    <div class="text-xs">{{ authStore.user.email }}</div>
                 </div>
             </div>
         </div>

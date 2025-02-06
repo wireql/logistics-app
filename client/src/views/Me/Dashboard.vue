@@ -1,15 +1,18 @@
 <script setup>
-import ArrowUp from '@/components/Icons/arrow-up.vue';
-import TotalTasks from '@/components/Icons/total-tasks.vue';
-import Total_mill from '@/components/Icons/total_mill.vue';
-import DashboardTotalCard__Loading from '@/components/UI/Profile/DashboardTotalCard__Loading.vue';
-import TaskCard from '@/components/UI/Profile/TaskCard.vue';
-import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
+    import ArrowUp from '@/components/Icons/arrow-up.vue';
+    import TotalTasks from '@/components/Icons/total-tasks.vue';
+    import Total_mill from '@/components/Icons/total_mill.vue';
+    import DashboardTotalCard__Loading from '@/components/UI/Profile/DashboardTotalCard__Loading.vue';
+    import TaskCard from '@/components/UI/Profile/TaskCard.vue';
+    import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
+    import { useAuthStore } from '@/stores/auth';
+
+    const authStore = useAuthStore()
 </script>
 
 <template>
     <div class="flex flex-col gap-[5px] mt-6">
-        <div class="text-2xl font-bold">Добро пожаловать, Дмитрий!</div>
+        <div class="text-2xl font-bold">Добро пожаловать, {{authStore.user.first_name}}!</div>
         <div class="text-sm">Здесь можно посмотреть общую статистику и информацию</div>
     </div>
 

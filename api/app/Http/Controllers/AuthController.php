@@ -33,6 +33,9 @@ class AuthController extends Controller
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([
                 "message" => "Ошибка при авторизации.",
+                "errors" => [
+                    "password" => ["Неверный пароль."]
+                ]
             ], 400);
         }
 
