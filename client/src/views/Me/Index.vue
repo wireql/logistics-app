@@ -1,5 +1,20 @@
 <script setup>
-import DashboardSidebar from '@/components/UI/Profile/DashboardSidebar.vue';
+    import DashboardSidebar from '@/components/UI/Profile/DashboardSidebar.vue';
+    import { onMounted } from 'vue';
+    import { getUser } from '../../api/User/index'
+    import { useAuthStore } from '@/stores/auth';
+    import router from '@/router';
+
+    const authStore = useAuthStore();
+
+    onMounted(() => {
+        getUser(authStore.token).then(res => {
+            
+        }).catch(err => {
+            authStore.logout();
+            router.push('/login');
+        });
+    })
 </script>
 
 <template>
