@@ -1,79 +1,68 @@
 <script setup>
-import Cars from '@/components/Icons/cars.vue';
-import Employees from '@/components/Icons/employees.vue';
-import Home from '@/components/Icons/home.vue';
-import Notify from '@/components/Icons/notify.vue';
-import Quit from '@/components/Icons/quit.vue';
-import Settings from '@/components/Icons/settings.vue';
-import SideDashboard from '@/components/Icons/sideDashboard.vue';
-import Tasks from '@/components/Icons/tasks.vue';
+import ArrowUp from '@/components/Icons/arrow-up.vue';
+import TotalTasks from '@/components/Icons/total-tasks.vue';
+import Total_mill from '@/components/Icons/total_mill.vue';
+import DashboardTotalCard__Loading from '@/components/UI/Profile/DashboardTotalCard__Loading.vue';
+import TaskCard from '@/components/UI/Profile/TaskCard.vue';
+import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
 </script>
 
 <template>
-    <div class="border-1 border-white border-r-gray-300 max-w-[250px] flex flex-col justify-between h-screen p-4">
-        <div>
-            <div class="flex flex-row items-center justify-between">
-                <div class="font-bold text-2xl">Logistics</div>
-                <SideDashboard />
+    <div class="flex flex-col gap-[5px] mt-6">
+        <div class="text-2xl font-bold">Добро пожаловать, Дмитрий!</div>
+        <div class="text-sm">Здесь можно посмотреть общую статистику и информацию</div>
+    </div>
+
+    <hr class="border-gray-300 my-[24px]">
+
+    <div class="bg-dark-50 flex items-center max-w-[238px] justify-between p-[3px] rounded-[6px]">
+        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Год</div>
+        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Месяц</div>
+        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Квартал</div>
+        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Неделя</div>
+    </div>
+
+    <div class="flex gap-6 mt-6">
+        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] max-w-[238px] w-full">
+            <div class="flex flex-col gap-[5px]">
+                <Total_mill />
+                <div class="text-xs opacity-[60%]">Проехали</div>
             </div>
-            <hr class="border-gray-300 my-[30px]">
-            <div class="flex flex-col gap-[30px]">
-                <div class="flex flex-col">
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                        <Home />
-                        <div class="text-sm font-bold">Главная</div>
-                    </div>
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                        <Notify />
-                        <div class="text-sm font-bold">Уведомления</div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col">
-                    <div class="text-sm mb-[15px]">Основное</div>
-
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                        <Tasks />
-                        <div class="text-sm font-bold">Задачи</div>
-                    </div>
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                        <Employees />
-                        <div class="text-sm font-bold">Сотрудники</div>
-                    </div>
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                        <Cars />
-                        <div class="text-sm font-bold">Автомобили</div>
-                    </div>
+            <div class="flex justify-between items-center">
+                <div class="text-base font-bold">5 142 км</div>
+                <div class="flex items-center py-[3px] px-[6px] border-1 rounded-full w-max">
+                    <ArrowUp />
+                    <div class="text-xs">12%</div>
                 </div>
             </div>
         </div>
 
-        <div>
-            <div class="flex flex-col gap-4 bg-dark-999 p-4 rounded-[12px] mb-[20px]">
-                <div class="text-white font-bold text-sm">Заголовок</div>
-                <div class="text-white text-xs">Какая-то важная или интересная информация будет здесь</div>
+        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] max-w-[238px] w-full">
+            <div class="flex flex-col gap-[5px]">
+                <TotalTasks />
+                <div class="text-xs opacity-[60%]">Задач выполнено</div>
             </div>
-
-            <div class="flex flex-col">
-                <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                    <Settings />
-                    <div class="text-sm font-bold">Настройки</div>
-                </div>
-                <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
-                    <Quit />
-                    <div class="text-sm font-bold">Выход</div>
-                </div>
-            </div>
-
-            <hr class="border-gray-300 my-[30px]">
-
-            <div class="flex items-center gap-[15px]">
-                <div class="w-[24px] h-[24px] rounded-full bg-dark-50"></div>
-                <div class="flex flex-col gap-[5px]">
-                    <div class="text-sm font-bold">Дмитрий Батькович</div>
-                    <div class="text-xs">email@email.ru</div>
+            <div class="flex justify-between items-center">
+                <div class="text-base font-bold">5 142 км</div>
+                <div class="flex items-center py-[3px] px-[6px] border-1 rounded-full w-max">
+                    <ArrowUp />
+                    <div class="text-xs">12%</div>
                 </div>
             </div>
         </div>
+
+        <DashboardTotalCard__Loading />
+    </div>
+
+    <div class="mt-6 text-2xl">Активные задачи</div>
+
+    <hr class="border-gray-300 my-[24px]">
+
+    <div class="flex flex-col gap-3">
+
+        <TaskCard uuid="eadbfeac-5258-45c2-bab7-ccb9b5ef74f9" datetime="04.02.2025 15:12" address_from="Ростов-на-Дону" address_to="Москва" cargo="Кирпичи" deadline="10.02.2025" />
+
+        <TaskCard__Loading />
+
     </div>
 </template>
