@@ -34,7 +34,7 @@ import Button from '@/components/UI/Button.vue';
                     <div class="text-xs opacity-[60%]">Сроки</div>
                 </div>
             </div>
-            <Button class="w-max">Отправить</Button>
+            <Button class="w-max">Loading...</Button>
         </div>
     </div>
 </template>
