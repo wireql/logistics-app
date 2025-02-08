@@ -1,5 +1,6 @@
 <script setup>
-    import Cars from '@/components/Icons/cars.vue';
+    import { logoutUser } from '@/api/User';
+import Cars from '@/components/Icons/cars.vue';
     import Employees from '@/components/Icons/employees.vue';
     import Home from '@/components/Icons/home.vue';
     import Notify from '@/components/Icons/notify.vue';
@@ -7,10 +8,21 @@
     import Settings from '@/components/Icons/settings.vue';
     import SideDashboard from '@/components/Icons/sideDashboard.vue';
     import Tasks from '@/components/Icons/tasks.vue';
+import router from '@/router';
 
     import { useAuthStore } from '@/stores/auth';
 
     const authStore = useAuthStore()
+
+    const logout = () => {
+        logoutUser(authStore.token).then(res => {
+            authStore.logout()
+            router.push('/login')
+        }).catch(err => {
+            authStore.logout()
+            router.push('/login')
+        })
+    }
 </script>
 
 <template>
@@ -63,7 +75,7 @@
                     <Settings />
                     <div class="text-sm font-bold">Настройки</div>
                 </div>
-                <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer" v-on:click="logout()">
                     <Quit />
                     <div class="text-sm font-bold">Выход</div>
                 </div>

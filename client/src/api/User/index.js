@@ -16,8 +16,17 @@ async function loginUser(data) {
     return await http.post('login', data);
 }
 
+async function logoutUser(token) {
+    return await http.post('logout', {}, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+
 export {
     getUser,
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 }
