@@ -52,10 +52,10 @@ import router from '@/router';
                         <Tasks />
                         <div class="text-sm font-bold">Задачи</div>
                     </router-link>
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                    <router-link to="/me/employees" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Employees />
                         <div class="text-sm font-bold">Сотрудники</div>
-                    </div>
+                    </router-link>
                     <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Cars />
                         <div class="text-sm font-bold">Автомобили</div>

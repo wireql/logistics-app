@@ -1,13 +1,15 @@
 <script setup>
 import ArrowWay from '@/components/Icons/arrow-way.vue';
 import Copy from '@/components/Icons/copy.vue';
+import CopyActive from '@/components/Icons/copy-active.vue';
 import Delete from '@/components/Icons/delete.vue';
-import Dots from '@/components/Icons/dots.vue';
 import Edit from '@/components/Icons/edit.vue';
+import Dots from '@/components/Icons/dots.vue';
 import Button from '@/components/UI/Button.vue';
 import { ref } from 'vue';
+import { notify } from "@kyvg/vue3-notification";
 
-defineProps({
+const props = defineProps({
     uuid: String,
     datetime: Date,
     address_from: String,
@@ -18,6 +20,7 @@ defineProps({
 
 const show_modal = ref(false);
 const show_modal2 = ref(false);
+const copy = ref(false);
 
 const hideModal = () => {
     show_modal.value = false;
@@ -29,14 +32,33 @@ const hideModal2 = () => {
         show_modal.value = false;
     }, 100);
 };
+
+const copyUuid = async () => {
+    try {
+        await navigator.clipboard.writeText(props.uuid);
+        notify({
+            title: "Копирование",
+            text: "UUID скопирован в буфер обмена!",
+            type: 'success'
+        });
+        copy.value = true;
+        
+        setTimeout(() => {
+            copy.value = false
+        }, 1000);
+    } catch (err) {
+        console.error('Ошибка копирования: ', err);
+    }
+}
 </script>
 
 <template>
     <div class="flex flex-col gap-4 p-[15px] rounded-[12px] border border-gray-300">
         <div class="flex items-center justify-between">
-            <div class="flex items-center gap-[5px] hover:cursor-pointer">
+            <div class="flex items-center gap-[5px] hover:cursor-pointer" v-on:click="copyUuid()">
                 <div class="text-xs opacity-[60%]">{{ uuid }}</div>
-                <Copy />
+                <Copy v-if="!copy" />
+                <CopyActive v-else />
             </div>
             <div class="text-xs opacity-[60%]">{{ datetime }}</div>
         </div>

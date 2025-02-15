@@ -5,6 +5,7 @@ import LoginView from '../views/Auth/LoginView.vue'
 import Dashboard from '@/views/Me/Dashboard.vue'
 import Index from '@/views/Me/Index.vue'
 import Tasks from '@/views/Me/Tasks.vue'
+import Employees from '@/views/Me/Employees.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -44,6 +45,12 @@ const router = createRouter({
 					path: 'tasks',
 					name: 'tasks',
 					component: Tasks,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'employees',
+					name: 'employees',
+					component: Employees,
 					meta: { requiresAuth: true },
 				},
 			]
