@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TrailerType extends Model
+class Address extends Model
 {
-    public $timestamps = false;
-    
     protected $fillable = [
         'name',
+        'address_category_id',
+        'company_id'
     ];
 }

@@ -20,15 +20,11 @@ return new class extends Migration
             $table->string('register_number', 9);
             $table->integer('milleage');
 
-            $table->unsignedBigInteger('vehicle_status_id');
             $table->unsignedBigInteger('vehicle_categorie_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('body_type_id');
 
-            $table->foreign('vehicle_status_id')->references('id')->on('vehicle_statuses')->onDelete('RESTRICT');
             $table->foreign('vehicle_categorie_id')->references('id')->on('vehicle_categories')->onDelete('RESTRICT');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
-            $table->foreign('body_type_id')->references('id')->on('body_types')->onDelete('RESTRICT');
 
             $table->timestamps();
         });

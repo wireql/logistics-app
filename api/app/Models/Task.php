@@ -12,10 +12,9 @@ class Task extends Model
     protected $fillable = [
         'address_from',
         'address_to',
-        'cargo_name',
-        'deadline',
         'vehicle_id',
         'user_id',
+        'employee_id',
         'task_status_id',
     ];
 }

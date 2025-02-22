@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,9 @@ class AuthController extends Controller
     public function register(RegisterRequest $request) {
         $fields = $request->validated();
 
+        $company = Company::create(['name' => $fields['company_name']]);
+        $fields['company_id'] = $company->id;
+        
         $user = User::create($fields);
 
         $token = $user->createToken($fields['email']);

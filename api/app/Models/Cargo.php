@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VehicleStatus extends Model
+class Cargo extends Model
 {
-    public $timestamps = false;
-    
     protected $fillable = [
         'name',
+        'barcode',
+        'description',
+        'volume',
+        'task_point_id'
     ];
 }

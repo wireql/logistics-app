@@ -14,13 +14,20 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
+            $table->string('middle_name');
             $table->string('last_name');
-            $table->string('company_name');
             $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('user_category_id')->default(1);
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
+            $table->foreign('user_category_id')->references('id')->on('user_categories')->onDelete('RESTRICT');
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

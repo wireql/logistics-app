@@ -12,18 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->uuid();
+            $table->id();
             $table->string('address_from');
             $table->string('address_to');
-            $table->string('cargo_name');
-            $table->dateTime('deadline');
 
             $table->unsignedBigInteger('vehicle_id')->default(null);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('task_status_id');
 
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('RESTRICT');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->foreign('task_status_id')->references('id')->on('task_statuses')->onDelete('RESTRICT');
 
             $table->timestamps();

@@ -20,8 +20,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name',
+        'middle_name',
         'last_name',
-        'company_name',
+        'company_id',
+        'user_category_id',
         'email',
         'password',
     ];
@@ -48,4 +50,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function addresses() {
+        return $this->hasMany(Address::class, 'company_id', 'company_id');
+    }
+
+    public function employees() {
+        return $this->hasMany(User::class, 'company_id', 'company_id');
+    }
+
+    public function category() {
+        return $this->belongsTo(UserCategory::class, 'user_category_id');
+    }
+
 }
