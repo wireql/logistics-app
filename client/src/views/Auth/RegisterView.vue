@@ -8,6 +8,7 @@
 
     const data = ref({
         first_name: null,
+        middle_name: null,
         last_name: null,
         company_name: null,
         email: null,
@@ -16,6 +17,7 @@
     });
     const data__errors = ref({
         first_name: [],
+        middle_name: [],
         last_name: [],
         company_name: [],
         email: [],
@@ -28,6 +30,7 @@
 
         data__errors.value = {
             first_name: [],
+            middle_name: [],
             last_name: [],
             company_name: [],
             email: [],
@@ -59,6 +62,7 @@
 
             data__errors.value = {
                 first_name: errors.first_name || [],
+                middle_name: errors.middle_name || [],
                 last_name: errors.last_name || [],
                 company_name: errors.company_name || [],
                 email: errors.email || [],
@@ -85,6 +89,7 @@
                     <InputGroup v-model="data.last_name" label="Фамилия" placeholder="Иванов" :error="data__errors.last_name[0]"/>
                     <InputGroup v-model="data.first_name" label="Имя" placeholder="Иван" :error="data__errors.first_name[0]"/>
                 </div>
+                <InputGroup v-model="data.middle_name" label="Отчество" placeholder="Иванович" :error="data__errors.middle_name[0]"/>
                 <InputGroup v-model="data.company_name" label="Название компании" placeholder="ООО “СуперКомпани”" :error="data__errors.company_name[0]"/>
                 <InputGroup v-model="data.email" label="Электронная почта" placeholder="example@gmail.com" type="email" name="email" :error="data__errors.email[0]"/>
                 <InputGroup v-model="data.password" label="Пароль" placeholder="*******" type="password" :error="data__errors.password[0]"/>

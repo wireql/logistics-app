@@ -16,6 +16,7 @@ class AuthController extends Controller
 
         $company = Company::create(['name' => $fields['company_name']]);
         $fields['company_id'] = $company->id;
+        $fields['user_category_id'] = 1;
         
         $user = User::create($fields);
 

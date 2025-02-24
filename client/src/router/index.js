@@ -6,6 +6,7 @@ import Dashboard from '@/views/Me/Dashboard.vue'
 import Index from '@/views/Me/Index.vue'
 import Tasks from '@/views/Me/Tasks.vue'
 import Employees from '@/views/Me/Employees.vue'
+import Employees__New from '@/views/Me/Employees__New.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -51,6 +52,12 @@ const router = createRouter({
 					path: 'employees',
 					name: 'employees',
 					component: Employees,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'employees/new',
+					name: 'employees_store',
+					component: Employees__New,
 					meta: { requiresAuth: true },
 				},
 			]

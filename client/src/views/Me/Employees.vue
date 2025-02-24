@@ -36,7 +36,9 @@
     <hr class="border-gray-300 my-[24px]">
 
     <div class="flex items-center justify-end">
-        <Button class="w-max">Создать задачу</Button>
+        <router-link to="/me/employees/new" class="text-sm bg-dark-999 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+            Добавить сотрудника
+        </router-link>
     </div>
 
 
@@ -48,9 +50,7 @@
                     <tr>
                         <th class="text-xs font-normal py-3 text-left">ФИО</th>
                         <th class="text-xs font-normal py-3 text-left">Электронная почта</th>
-                        <th class="text-xs font-normal py-3 text-left">Дата рождения</th>
                         <th class="text-xs font-normal py-3 text-left">Должность</th>
-                        <th class="text-xs font-normal py-3 text-left">Доступ в кабинет</th>
                         <th class="text-xs font-normal py-3 border-b-1 border-gray-300 text-left">Действия</th>
                     </tr>
                 </thead>
@@ -58,9 +58,7 @@
                     <tr>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300">Ивано Иван Иванович</td>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300">ivanov@gmail.com</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">15.07.1993</td>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300">Водитель</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">Нет</td>
                         <td class="text-xs font-normal py-2 flex">
                             <div class="relative">
                                 <div 

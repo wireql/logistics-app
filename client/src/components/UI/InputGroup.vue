@@ -28,7 +28,7 @@ const id = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`);
             :placeholder="placeholder" 
             :value="modelValue" 
             @input="$emit('update:modelValue', $event.target.value)"
-            class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-50 py-[6px] px-[9px] rounded-[6px]"
+            class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]"
             v-bind="$attrs" />
         <div class="text-xs text-red-300" v-if="error !== null">{{ error }}</div>
     </div>

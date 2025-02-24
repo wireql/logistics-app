@@ -18,15 +18,17 @@
 
     <hr class="border-gray-300 my-[24px]">
 
-    <div class="bg-dark-50 flex items-center max-w-[238px] justify-between p-[3px] rounded-[6px]">
-        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Год</div>
-        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Месяц</div>
-        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Квартал</div>
-        <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Неделя</div>
+    <div class="grid grid-cols-12 gap-5">
+        <div class="bg-dark-50 flex items-center justify-between p-[3px] rounded-[6px] col-span-12 sm:col-span-6 md:col-span-4">
+            <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Год</div>
+            <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Месяц</div>
+            <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Квартал</div>
+            <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Неделя</div>
+        </div>
     </div>
 
-    <div class="flex gap-6 mt-6">
-        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] max-w-[238px] w-full">
+    <div class="mt-6 grid grid-cols-12 gap-5">
+        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] col-span-12 sm:col-span-6 md:col-span-4">
             <div class="flex flex-col gap-[5px]">
                 <Total_mill />
                 <div class="text-xs opacity-[60%]">Проехали</div>
@@ -40,7 +42,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] max-w-[238px] w-full">
+        <div class="flex flex-col h-[120px] justify-between p-[15px] border border-gray-300 rounded-[12px] col-span-12 sm:col-span-6 md:col-span-4">
             <div class="flex flex-col gap-[5px]">
                 <TotalTasks />
                 <div class="text-xs opacity-[60%]">Задач выполнено</div>

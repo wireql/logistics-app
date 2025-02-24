@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'middle_name' => ['required', 'max:100'],
             'last_name' => ['required', 'max:100'],
             'company_name' => ['required', 'max:255'],
-            'user_category_id' => ['required', 'exists:user_categories,id'],
+            'user_category_id' => ['exists:user_categories,id'],
             'email' => ['required', 'email', 'unique:users,email', 'max:100'],
             'password' => ['required', 'confirmed', Password::min(6)],
         ];

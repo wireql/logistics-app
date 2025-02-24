@@ -56,14 +56,14 @@ const copyUuid = async () => {
     <div class="flex flex-col gap-4 p-[15px] rounded-[12px] border border-gray-300">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-[5px] hover:cursor-pointer" v-on:click="copyUuid()">
-                <div class="text-xs opacity-[60%]">{{ uuid }}</div>
+                <div class="max-w-[50px] text-xs opacity-[60%] truncate">{{ uuid }}</div>
                 <Copy v-if="!copy" />
                 <CopyActive v-else />
             </div>
             <div class="text-xs opacity-[60%]">{{ datetime }}</div>
         </div>
         <div class="flex items-center justify-between">
-            <div class="flex items-center gap-16">
+            <div class="flex items-center gap-4 sm:gap-16 flex-wrap">
                 <div class="flex items-start gap-6">
                     <div class="flex flex-col gap-[5px]">
                         <div class="text-sm">{{ address_from }}</div>
@@ -87,7 +87,6 @@ const copyUuid = async () => {
                 </div>
             </div>
             <div class="relative flex items-center gap-[5px]">
-                <Button class="w-max">Отправить</Button>
                 <div 
                     class="hover:cursor-pointer hover:bg-dark-50/70 p-1 rounded-[6px]" 
                     @mouseover="show_modal = true"
