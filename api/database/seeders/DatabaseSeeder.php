@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
             AddressCategoriesSeeder::class,
             TaskPointStatusesSeeder::class,
             UserCategoriesSeeder::class,
+            VehicleStatusesSeeder::class,
+            VehicleCategoriesSeeder::class,
+            BodyTypesSeeder::class,
         ]);
     }
 }

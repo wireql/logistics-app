@@ -12,8 +12,11 @@ class Vehicle extends Model
         'year',
         'vin_number',
         'register_number',
-        'milleage',
-        'vehicle_categorie_id',
-        'user_id',
+        'max_volume',
+        'max_weight',
+        'vehicle_status_id',
+        'vehicle_category_id',
+        'body_type_id',
+        'company_id',
     ];
 }

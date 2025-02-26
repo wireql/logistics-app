@@ -18,13 +18,18 @@ return new class extends Migration
             $table->year('year');
             $table->string('vin_number', 17);
             $table->string('register_number', 9);
-            $table->integer('milleage');
+            $table->decimal('max_volume');
+            $table->decimal('max_weight');
 
-            $table->unsignedBigInteger('vehicle_categorie_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('vehicle_status_id');
+            $table->unsignedBigInteger('vehicle_category_id');
+            $table->unsignedBigInteger('body_type_id');
+            $table->unsignedBigInteger('company_id');
 
-            $table->foreign('vehicle_categorie_id')->references('id')->on('vehicle_categories')->onDelete('RESTRICT');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
+            $table->foreign('vehicle_status_id')->references('id')->on('vehicle_statuses')->onDelete('RESTRICT');
+            $table->foreign('vehicle_category_id')->references('id')->on('vehicle_categories')->onDelete('RESTRICT');
+            $table->foreign('body_type_id')->references('id')->on('body_types')->onDelete('RESTRICT');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
 
             $table->timestamps();
         });
