@@ -13,7 +13,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $item = $request->user()->employees()->with('category')->get();
+        $item = $request->user()->employees()->with('category')->paginate(10);
 
         return response()->json([
             "message" => "Список сотрудников успешно получен.",
@@ -27,6 +27,9 @@ class EmployeeController extends Controller
     public function store(EmployeeStoreRequest $request)
     {
         $fields = $request->validated();
+        if ($fields['user_category_id'] == 1) {
+            $fields['user_category_id'] = 2;
+        }
 
         $item = $request->user()->employees()->create($fields);
 

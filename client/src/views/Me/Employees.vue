@@ -1,86 +1,159 @@
 <script setup>
-    import Button from '@/components/UI/Button.vue';
-    import Dots from '@/components/Icons/dots.vue';
+    import { ref, watch } from 'vue';
+    import { useRoute } from 'vue-router';
+    import { notify } from '@kyvg/vue3-notification';
+    import { deleteEmployee, getEmployees } from '@/api/Employee';
+    import { useAuthStore } from '@/stores/auth';
+
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
+    import Arrow from '@/components/Icons/arrow.vue';
 
-    import { ref } from 'vue';
+    const response = ref([]);
+    const loading = ref(false);
+    const loadingDelete = ref(false);
+    const isOpen = ref(false);
+    const userId = ref(null);
 
-    defineProps({
-        uuid: String,
-        datetime: Date,
-        address_from: String,
-        address_to: String,
-        cargo: String,
-        deadline: Date,
-    });
+    const authStore = useAuthStore()
+    const route = useRoute();
 
-    const show_modal = ref(false);
-    const show_modal2 = ref(false);
+    const deleteModal = (id) => {
+        isOpen.value = true;
+        userId.value = id;
+    }
 
-    const hideModal = () => {
-        show_modal.value = false;
-        show_modal2.value = false;
+    const confirmDelete = () => {
+        loadingDelete.value = true;
+        deleteEmployee(authStore.token, userId.value).then(res => {
+            loadingDelete.value = false
+            isOpen.value = false
+
+            notify({
+                title: "Удаление",
+                text: res.data.message,
+                type: 'success'
+            });
+            fetchEmployees()
+        }).catch(err => {
+            loadingDelete.value = false
+            isOpen.value = false
+        });
+    }
+
+    const linkPrev = () => {
+        if(response.value.current_page <= 1){
+            return "/me/employees";
+        }
+
+        return "/me/employees?page=" + (response.value.current_page - 1);
+    }
+
+    const linkTo = () => {
+        if(response.value.current_page >= response.value.last_page){
+            return "/me/employees?page=" + response.value.current_page;
+        }
+
+        return "/me/employees?page=" + (response.value.current_page + 1);
+    }
+
+    const fetchEmployees = () => {
+        loading.value = true;
+
+        const params = route.query
+
+        getEmployees(authStore.token, params).then(res => {
+            response.value = res.data.data
+            loading.value = false
+        }).catch(err => {
+            loading.value = false
+        });
     };
 
-    const hideModal2 = () => {
-        setTimeout(() => {
-            show_modal.value = false;
-        }, 100);
-    };
+    watch(() => route.query.page, fetchEmployees, { immediate: true });
 </script>
 
 <template>
-    <div class="mt-6 text-2xl font-bold">Ваши сотрудники</div>
+    <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center p-6">
+        <div class="bg-white p-6 rounded-[12px] border border-gray-300 max-w-80 shadow-md">
+            <h2 class="text-lg font-bold">Подтвердите действие</h2>
+            <p class="mt-2 text-sm">Вы уверены, что хотите удалить данного сотрудника?</p>
+            
+            <div class="mt-4 flex justify-end space-x-2">
+                <button @click="isOpen = false" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+                    <div class="flex items-center gap-[10px]">
+                        <div>Отмена</div>
+                    </div>
+                </button>
+                <button @click="confirmDelete()" class="text-sm bg-red-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+                    <div class="flex items-center gap-[10px]">
+                        <span v-if="loadingDelete">Обработка...</span>
+                        <span v-else>Удалить</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <hr class="border-gray-300 my-[24px]">
+    <div class="mt-6 flex items-center justify-between">
+        <div class="text-2xl font-bold">Ваши сотрудники</div>
 
-    <div class="flex items-center justify-end">
-        <router-link to="/me/employees/new" class="text-sm bg-dark-999 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+        <router-link to="/me/employees/new" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
             Добавить сотрудника
         </router-link>
     </div>
 
+    <hr class="border-gray-300 my-[24px]">
 
     <div class="mt-6">
         <div class="flex flex-col gap-3 ">
-            <div class="text-xs opacity-[60%]">1-10 из 74 записей</div>
+            <div class="flex justify-between">
+                <div class="text-xs opacity-[60%]">1-{{response.per_page}} из {{response.total}} записи</div>
+                <div class="flex items-center gap-3">
+                    <router-link :to="linkPrev()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
+                        <Arrow color="black" class="rotate-180"/>
+                    </router-link>
+                    <div>{{response.current_page}}</div>
+                    <router-link :to="linkTo()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
+                        <Arrow color="black"/>
+                    </router-link>
+                </div>
+            </div>
             <table class="table-auto w-full">
                 <thead>
                     <tr>
                         <th class="text-xs font-normal py-3 text-left">ФИО</th>
                         <th class="text-xs font-normal py-3 text-left">Электронная почта</th>
                         <th class="text-xs font-normal py-3 text-left">Должность</th>
-                        <th class="text-xs font-normal py-3 border-b-1 border-gray-300 text-left">Действия</th>
+                        <th class="text-xs font-normal py-3 text-left">Действия</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">Ивано Иван Иванович</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">ivanov@gmail.com</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">Водитель</td>
-                        <td class="text-xs font-normal py-2 flex">
-                            <div class="relative">
-                                <div 
-                                    class="hover:cursor-pointer hover:bg-dark-50/70 p-1 rounded-[6px]"
-                                    @mouseover="show_modal = true"
-                                    @mouseleave="hideModal2">
-                                    <Dots />
-                                </div>
-                                <div 
-                                    v-if="show_modal || show_modal2" 
-                                    @mouseover="show_modal2 = true" 
-                                    @mouseleave="hideModal" 
-                                    class="absolute flex flex-col bg-white top-[35px] right-0 p-[3px] rounded-[5px] gap-[10px] border border-gray-300">
-                                    <div class="flex items-center gap-[5px] py-[3px] px-[6px] hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px]">
-                                        <Edit />
-                                        <div class="text-sm">Редактировать</div>
-                                    </div>
-                                    <hr class="border-gray-300">
-                                    <div class="flex items-center gap-[5px] py-[3px] px-[6px] hover:cursor-pointer hover:bg-red-100 rounded-[3px]">
-                                        <Delete />
-                                        <div class="text-sm">Удалить</div>
-                                    </div>
+                    <tr v-if="loading">
+                        <td class="text-center py-4 text-gray-500">
+                            <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
+                        </td>
+                        <td class="text-center py-4 text-gray-500">
+                            <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
+                        </td>
+                        <td class="text-center py-4 text-gray-500">
+                            <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
+                        </td>
+                        <td class="text-center py-4 text-gray-500">
+                            <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
+                        </td>
+                    </tr>
+                    <tr v-else v-for="user in response.data" :key="user.id">
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.last_name + " " + user.first_name + " " + user.middle_name }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.email }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.category.name }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">
+                            <div class="flex gap-2">
+                                <router-link :to="`/me/employees/`+user.id" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
+                                    <Edit color="black" />
+                                </router-link>
+                                <div v-on:click="deleteModal(user.id)" class="hover:cursor-pointer hover:bg-red-100 rounded-[3px] px-1.5 py-1.5">
+                                    <Delete color="black" />
                                 </div>
                             </div>
                         </td>

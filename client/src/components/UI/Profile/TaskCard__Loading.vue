@@ -1,7 +1,5 @@
 <script setup>
-import ArrowWay from '@/components/Icons/arrow-way.vue';
-import Copy from '@/components/Icons/copy.vue';
-import Button from '@/components/UI/Button.vue';
+    import ArrowWay from '@/components/Icons/arrow-way.vue';
 </script>
 
 <template>

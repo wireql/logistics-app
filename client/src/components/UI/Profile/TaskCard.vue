@@ -1,55 +1,54 @@
 <script setup>
-import ArrowWay from '@/components/Icons/arrow-way.vue';
-import Copy from '@/components/Icons/copy.vue';
-import CopyActive from '@/components/Icons/copy-active.vue';
-import Delete from '@/components/Icons/delete.vue';
-import Edit from '@/components/Icons/edit.vue';
-import Dots from '@/components/Icons/dots.vue';
-import Button from '@/components/UI/Button.vue';
-import { ref } from 'vue';
-import { notify } from "@kyvg/vue3-notification";
+    import { ref } from 'vue';
+    import { notify } from "@kyvg/vue3-notification";
 
-const props = defineProps({
-    uuid: String,
-    datetime: Date,
-    address_from: String,
-    address_to: String,
-    cargo: String,
-    deadline: Date,
-});
+    import ArrowWay from '@/components/Icons/arrow-way.vue';
+    import Copy from '@/components/Icons/copy.vue';
+    import CopyActive from '@/components/Icons/copy-active.vue';
+    import Delete from '@/components/Icons/delete.vue';
+    import Edit from '@/components/Icons/edit.vue';
+    import Dots from '@/components/Icons/dots.vue';
 
-const show_modal = ref(false);
-const show_modal2 = ref(false);
-const copy = ref(false);
+    const show_modal = ref(false);
+    const show_modal2 = ref(false);
+    const copy = ref(false);
+    const props = defineProps({
+        uuid: String,
+        datetime: Date,
+        address_from: String,
+        address_to: String,
+        cargo: String,
+        deadline: Date,
+    });
 
-const hideModal = () => {
-    show_modal.value = false;
-    show_modal2.value = false;
-};
-
-const hideModal2 = () => {
-    setTimeout(() => {
+    const hideModal = () => {
         show_modal.value = false;
-    }, 100);
-};
+        show_modal2.value = false;
+    };
 
-const copyUuid = async () => {
-    try {
-        await navigator.clipboard.writeText(props.uuid);
-        notify({
-            title: "Копирование",
-            text: "UUID скопирован в буфер обмена!",
-            type: 'success'
-        });
-        copy.value = true;
-        
+    const hideModal2 = () => {
         setTimeout(() => {
-            copy.value = false
-        }, 1000);
-    } catch (err) {
-        console.error('Ошибка копирования: ', err);
+            show_modal.value = false;
+        }, 100);
+    };
+
+    const copyUuid = async () => {
+        try {
+            await navigator.clipboard.writeText(props.uuid);
+            notify({
+                title: "Копирование",
+                text: "UUID скопирован в буфер обмена!",
+                type: 'success'
+            });
+            copy.value = true;
+            
+            setTimeout(() => {
+                copy.value = false
+            }, 1000);
+        } catch (err) {
+            console.error('Ошибка копирования: ', err);
+        }
     }
-}
 </script>
 
 <template>
@@ -57,8 +56,8 @@ const copyUuid = async () => {
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-[5px] hover:cursor-pointer" v-on:click="copyUuid()">
                 <div class="max-w-[50px] text-xs opacity-[60%] truncate">{{ uuid }}</div>
-                <Copy v-if="!copy" />
-                <CopyActive v-else />
+                <Copy v-if="!copy" color="#797979" size="14" />
+                <CopyActive v-else color="#797979" size="14" />
             </div>
             <div class="text-xs opacity-[60%]">{{ datetime }}</div>
         </div>

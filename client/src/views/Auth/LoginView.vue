@@ -1,26 +1,37 @@
 <script setup>
-    import InputGroup from '../../components/UI/InputGroup.vue'
-    import Button from '../../components/UI/Button.vue'
+    /**
+     * 
+     */
     import { ref } from 'vue';
     import { loginUser } from '@/api/User';
     import { notify } from "@kyvg/vue3-notification";
-
     import { useAuthStore } from '@/stores/auth';
+
+    /**
+     * Components
+     */
+    import InputGroup from '../../components/UI/InputGroup.vue'
+    import Button from '../../components/UI/Button.vue'
     import router from '@/router';
 
     const authStore = useAuthStore();
 
+    /**
+     * Data and variables
+     */
+    const actionLoading = ref(false);
     const data = ref({
         email: null,
         password: null,
     })
-
     const data__errors = ref({
         email: [],
         password: [],
     });
-    const actionLoading = ref(false);
 
+    /**
+     * Methods
+     */
     const action = () => {
         actionLoading.value = true;
 
@@ -31,8 +42,8 @@
 
         loginUser(data.value).then(res => {
             notify({
-                title: "Авторизация",
-                text: "Вы успешно авторизировались!",
+                title: "Успешно",
+                text: res.data.message,
                 type: 'success'
             });
             actionLoading.value = false;

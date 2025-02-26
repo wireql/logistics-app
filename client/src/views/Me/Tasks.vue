@@ -1,23 +1,25 @@
 <script setup>
-import Button from '@/components/UI/Button.vue';
-import TaskCard from '@/components/UI/Profile/TaskCard.vue';
-import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
+    import Button from '@/components/UI/Button.vue';
+    import TaskCard from '@/components/UI/Profile/TaskCard.vue';
+    import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
 </script>
 
 <template>
-    <div class="mt-6 text-2xl font-bold">Ваши задачи</div>
+    <div class="mt-6 flex items-center justify-between">
+        <div class="text-2xl font-bold">Ваши задачи</div>
+
+        <Button class="w-max">Создать задачу</Button>
+    </div>
 
     <hr class="border-gray-300 my-[24px]">
 
-    <div class="flex items-center justify-between">
-        <div class="bg-dark-50 flex items-center gap-2 justify-between p-[3px] rounded-[6px]">
+    <div class="w-full">
+        <div class="bg-dark-50 flex items-center gap-2 justify-between p-[3px] rounded-[6px] w-max">
             <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">В Ожидании</div>
             <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Активные</div>
             <div class="text-xs py-[3px] px-[6px] rounded-[6px] hover:bg-white hover:cursor-pointer">Завершенные</div>
         </div>
-        <Button class="w-max">Создать задачу</Button>
     </div>
-
 
     <div class="flex flex-col gap-3 mt-6">
         <div class="text-xs opacity-[60%]">1-10 из 74 записей</div>

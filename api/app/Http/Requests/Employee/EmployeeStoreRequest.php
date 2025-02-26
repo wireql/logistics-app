@@ -31,4 +31,30 @@ class EmployeeStoreRequest extends FormRequest
             'user_category_id' => ['required', 'exists:user_categories,id'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'first_name.required' => 'Имя обязательно для заполнения.',
+            'first_name.max' => 'Имя не должно превышать 100 символов.',
+
+            'middle_name.required' => 'Отчество обязательно для заполнения.',
+            'middle_name.max' => 'Отчество не должно превышать 100 символов.',
+
+            'last_name.required' => 'Фамилия обязательна для заполнения.',
+            'last_name.max' => 'Фамилия не должна превышать 100 символов.',
+
+            'email.required' => 'Email обязателен для заполнения.',
+            'email.email' => 'Введите корректный email.',
+            'email.unique' => 'Этот email уже используется.',
+            'email.max' => 'Email не должен превышать 100 символов.',
+
+            'password.required' => 'Пароль обязателен для заполнения.',
+            'password.min' => 'Пароль должен содержать минимум 6 символов.',
+
+            'user_category_id.required' => 'Категория пользователя обязательна.',
+            'user_category_id.exists' => 'Выбранная категория пользователя не существует.',
+        ];
+    }
+
 }

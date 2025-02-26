@@ -1,11 +1,20 @@
 <script setup>
-    import InputGroup from '../../components/UI/InputGroup.vue'
-    import Button from '../../components/UI/Button.vue'
+
     import { ref } from 'vue';
     import { registerUser } from '@/api/User';
     import { notify } from "@kyvg/vue3-notification";
+
+    /**
+     * Components
+     */
+    import InputGroup from '../../components/UI/InputGroup.vue'
+    import Button from '../../components/UI/Button.vue'
     import router from '@/router';
 
+    /**
+     * Data and variables
+     */
+    const actionLoading = ref(false);
     const data = ref({
         first_name: null,
         middle_name: null,
@@ -23,8 +32,10 @@
         email: [],
         password: [],
     });
-    const actionLoading = ref(false);
 
+    /**
+     * Methods
+     */
     const action = () => {
         actionLoading.value = true;
 
@@ -40,7 +51,7 @@
         registerUser(data.value).then(res => {
             notify({
                 title: "Регистрация",
-                text: "Вы успешно зарегистрировались!",
+                text: res.data.message,
                 type: 'success'
             });
             actionLoading.value = false;

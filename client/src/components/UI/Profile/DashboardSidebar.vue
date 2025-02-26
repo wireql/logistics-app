@@ -1,14 +1,14 @@
 <script setup>
+    import router from '@/router';
     import { logoutUser } from '@/api/User';
+
     import Cars from '@/components/Icons/cars.vue';
     import Employees from '@/components/Icons/employees.vue';
     import Home from '@/components/Icons/home.vue';
     import Notify from '@/components/Icons/notify.vue';
     import Quit from '@/components/Icons/quit.vue';
     import Settings from '@/components/Icons/settings.vue';
-    import SideDashboard from '@/components/Icons/sideDashboard.vue';
     import Tasks from '@/components/Icons/tasks.vue';
-    import router from '@/router';
 
     import { useAuthStore } from '@/stores/auth';
 
@@ -83,7 +83,7 @@
 
             <hr class="border-gray-300 my-[30px]">
 
-            <div class="flex items-center justify-center lg:gap-[15px]">
+            <div class="flex items-center justify-center lg:justify-start lg:gap-[15px]">
                 <div class="w-[24px] h-[24px] rounded-full bg-dark-50"></div>
                 <div class="flex flex-col gap-[5px] hidden lg:block">
                     <div class="text-sm font-bold">{{ authStore.user.first_name }} {{ authStore.user.last_name }}</div>

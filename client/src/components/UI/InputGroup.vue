@@ -1,22 +1,22 @@
 <script setup>
-import { computed } from 'vue';
+    import { computed } from 'vue';
 
-const props = defineProps({
-    modelValue: String,
-    label: String,
-    type: {
-        type: String,
-        default: 'text'
-    },
-    placeholder: String,
-    error: {
-        type: String,
-        default: null
-    }
-});
+    const props = defineProps({
+        modelValue: String,
+        label: String,
+        type: {
+            type: String,
+            default: 'text'
+        },
+        placeholder: String,
+        error: {
+            type: String,
+            default: null
+        }
+    });
 
-const emit = defineEmits(["update:modelValue"]);
-const id = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`);
+    const emit = defineEmits(["update:modelValue"]);
+    const id = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`);
 </script>
 
 <template>
