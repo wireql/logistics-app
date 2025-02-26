@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Address\AddressStoreRequest;
-use App\Http\Requests\Address\AddressUpdateRequest;
+use App\Http\Requests\Address\AddressRequest;
 use App\Models\Address;
 use Illuminate\Http\Request;
 
@@ -25,7 +24,7 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AddressStoreRequest $request)
+    public function store(AddressRequest $request)
     {
         $fields = $request->validated();
 
@@ -60,7 +59,7 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AddressUpdateRequest $request, string $id)
+    public function update(AddressRequest $request, string $id)
     {
         $item = $request->user()->addresses()->find($id);
 
