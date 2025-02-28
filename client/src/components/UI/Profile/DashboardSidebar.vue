@@ -11,6 +11,7 @@
     import Tasks from '@/components/Icons/tasks.vue';
 
     import { useAuthStore } from '@/stores/auth';
+import Address from '@/components/Icons/address.vue';
 
     const authStore = useAuthStore()
 
@@ -52,14 +53,18 @@
                         <Tasks />
                         <div class="text-sm font-bold hidden lg:block">Задачи</div>
                     </router-link>
-                    <router-link to="/me/employees" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                    <router-link :to="{'name': 'EmployeesIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Employees />
                         <div class="text-sm font-bold hidden lg:block">Сотрудники</div>
                     </router-link>
-                    <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                    <router-link :to="{'name': 'VehiclesIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Cars />
                         <div class="text-sm font-bold hidden lg:block">Автомобили</div>
-                    </div>
+                    </router-link>
+                    <router-link :to="{'name': 'VehiclesIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                        <Address color="#212529" />
+                        <div class="text-sm font-bold hidden lg:block">Адреса</div>
+                    </router-link>
                 </div>
             </div>
         </div>

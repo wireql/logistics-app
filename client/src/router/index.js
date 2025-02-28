@@ -5,11 +5,14 @@ import LoginView from '../views/Auth/LoginView.vue'
 import Dashboard from '@/views/Me/Dashboard.vue'
 import Index from '@/views/Me/Index.vue'
 import Tasks from '@/views/Me/Tasks.vue'
-import Employees from '@/views/Me/Employees.vue'
-import Employees__New from '@/views/Me/EmployeesCreate.vue'
-import Employees__Edit from '@/views/Me/EmployeesUpdate.vue'
+import EmployeesIndex from '@/views/Me/EmployeesIndex.vue'
+import EmployeesCreate from '@/views/Me/EmployeesCreate.vue'
+import EmployeesUpdate from '@/views/Me/EmployeesUpdate.vue'
 
 import { useAuthStore } from '@/stores/auth'
+import VehiclesIndex from '@/views/Me/VehiclesIndex.vue'
+import VehiclesUpdate from '@/views/Me/VehiclesUpdate.vue'
+import VehiclesCreate from '@/views/Me/VehiclesCreate.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,20 +55,38 @@ const router = createRouter({
 				},
 				{
 					path: 'employees',
-					name: 'employees',
-					component: Employees,
+					name: 'EmployeesIndex',
+					component: EmployeesIndex,
 					meta: { requiresAuth: true },
 				},
 				{
 					path: 'employees/:id',
-					name: 'employees_edit',
-					component: Employees__Edit,
+					name: 'EmployeesUpdate',
+					component: EmployeesUpdate,
 					meta: { requiresAuth: true },
 				},
 				{
 					path: 'employees/new',
-					name: 'employees_store',
-					component: Employees__New,
+					name: 'EmployeesCreate',
+					component: EmployeesCreate,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'vehicles',
+					name: 'VehiclesIndex',
+					component: VehiclesIndex,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'vehicles/new',
+					name: 'VehiclesCreate',
+					component: VehiclesCreate,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'vehicles/:id',
+					name: 'VehiclesUpdate',
+					component: VehiclesUpdate,
 					meta: { requiresAuth: true },
 				},
 			]

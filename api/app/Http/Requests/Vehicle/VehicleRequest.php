@@ -30,7 +30,6 @@ class VehicleRequest extends FormRequest
             'register_number' => ['required', 'max:9'],
             'max_volume' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'max_weight' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
-            'vehicle_status_id' => ['required', 'exists:vehicle_statuses,id'],
             'vehicle_category_id' => ['required', 'exists:vehicle_categories,id'],
             'body_type_id' => ['required', 'exists:body_types,id'],
         ];
@@ -62,9 +61,6 @@ class VehicleRequest extends FormRequest
 
             'max_weight.required' => 'Поле "Максимальный вес" обязательно для заполнения.',
             'max_weight.decimal' => 'Поле "Максимальный вес" должно быть числом с 2 знаками после запятой.',
-
-            'vehicle_status_id.required' => 'Выберите статус автомобиля.',
-            'vehicle_status_id.exists' => 'Выбранный статус автомобиля недействителен.',
 
             'vehicle_category_id.required' => 'Выберите категорию автомобиля.',
             'vehicle_category_id.exists' => 'Выбранная категория автомобиля недействительна.',

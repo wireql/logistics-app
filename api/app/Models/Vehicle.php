@@ -19,4 +19,16 @@ class Vehicle extends Model
         'body_type_id',
         'company_id',
     ];
+
+    public function status() {
+        return $this->belongsTo(VehicleStatus::class, 'vehicle_status_id');
+    }
+
+    public function category() {
+        return $this->belongsTo(VehicleCategorie::class, 'vehicle_category_id');
+    }
+
+    public function body_type() {
+        return $this->belongsTo(BodyType::class, 'body_type_id');
+    }
 }

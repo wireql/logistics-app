@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Vehicle\VehicleRequest;
+use App\Http\Requests\Vehicle\VehicleUpdateRequest;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
@@ -12,7 +13,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $item = $request->user()->vehicles()->get();
+        $item = $request->user()->vehicles()->with(['status', 'category', 'body_type'])->paginate(10);
 
         return response()->json([
             "message" => "Список автомобилей успешно получен.",
@@ -26,6 +27,7 @@ class VehicleController extends Controller
     public function store(VehicleRequest $request)
     {
         $fields = $request->validated();
+        $fields['vehicle_status_id'] = 1;
 
         $item = $request->user()->vehicles()->create($fields);
 
@@ -58,7 +60,7 @@ class VehicleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(VehicleRequest $request, string $id)
+    public function update(VehicleUpdateRequest $request, string $id)
     {
         $item = $request->user()->vehicles()->find($id);
 
