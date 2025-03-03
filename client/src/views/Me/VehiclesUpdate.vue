@@ -4,11 +4,11 @@
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
     import { useRoute } from 'vue-router';
+    import { getBodyTypes, getVehicle, getVehicleCategories, updateVehicle } from '@/api/Vehicle';
 
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
     import InputGroup from '@/components/UI/InputGroup.vue'
-    import { getBodyTypes, getVehicle, getVehicleCategories, updateVehicle } from '@/api/Vehicle';
 
     const authStore = useAuthStore()
     const route = useRoute();
@@ -17,55 +17,38 @@
     const vehicleCategories = ref([])
     const bodyTypes = ref([])
     const actionLoading = ref(false);
+    const yearInput = ref(null);
+    const vinInput = ref(null);
+    const fields = [
+        'brand', 'model', 'year', 'vin_number', 'register_number',
+        'max_volume', 'max_weight', 'vehicle_category_id', 'body_type_id'
+    ];
 
-    const data = ref({
-        brand: null,
-        model: null,
-        year: null,
-        vin_number: null,
-        register_number: null,
-        max_volume: null,
-        max_weight: null,
-        vehicle_category_id: null,
-        body_type_id: null,
-    });
-    const data__errors = ref({
-        brand: [],
-        model: [],
-        year: [],
-        vin_number: [],
-        register_number: [],
-        max_volume: [],
-        max_weight: [],
-        vehicle_category_id: [],
-        body_type_id: [],
-    });
+    const data = ref(Object.fromEntries(fields.map(field => [field, null])));
+    const data__errors = ref(Object.fromEntries(fields.map(field => [field, []])));
 
-    const action = () => {
+    const resetErrors = () => {
+        Object.keys(data__errors.value).forEach(key => {
+            data__errors.value[key] = [];
+        });
+    };
+
+    const action = async () => {
         actionLoading.value = true;
 
-        data__errors.value = {
-            brand: [],
-            model: [],
-            year: [],
-            vin_number: [],
-            register_number: [],
-            max_volume: [],
-            max_weight: [],
-            vehicle_category_id: [],
-            body_type_id: [],
-        }
+        try {
+            resetErrors()   
 
-        updateVehicle(data.value, vehicleId, authStore.token).then(res => {
+            const response = await updateVehicle(data.value, vehicleId, authStore.token);
+
             notify({
                 title: "Обновление",
-                text: res.data.message,
+                text: response.data.message,
                 type: 'success'
             });
-            actionLoading.value = false;
 
             router.push('/me/vehicles');
-        }).catch(err => {
+        } catch (err) {
             if(err.status >= 500) {
                 notify({
                     title: "API",
@@ -73,30 +56,19 @@
                     type: 'error'
                 });
 
-                actionLoading.value = false;
                 return;
             }
             
             const errors = err.response?.data?.errors || {};
-
-            data__errors.value = {
-                brand: errors.brand || [],
-                model: errors.model || [],
-                year: errors.year || [],
-                vin_number: errors.vin_number || [],
-                register_number: errors.register_number || [],
-                max_volume: errors.max_volume || [],
-                max_weight: errors.max_weight || [],
-                vehicle_category_id: errors.vehicle_category_id || [],
-                body_type_id: errors.body_type_id || [],
-            };
-
+            Object.keys(errors).forEach(key => {
+                if (data__errors.value[key] !== undefined) {
+                    data__errors.value[key] = errors[key];
+                }
+            });
+        } finally {
             actionLoading.value = false;
-        })
+        }
     }
-
-    const yearInput = ref(null);
-    const vinInput = ref(null);
 
     const initYearMask = () => {
         let a = yearInput.value.$el.querySelector('input');
@@ -123,28 +95,28 @@
         }).mask(a);
     }
 
-    onMounted(() => {
+    onMounted(async () => {
         loading.value = true;
 
-        getVehicleCategories(authStore.token).then(res => {
-            vehicleCategories.value = res.data.data
-        }).catch(err => {
-            console.log(err);
-        })
+        try {
+            const [categoriesRes, bodyTypesRes, vehicleRes] = await Promise.all([
+                getVehicleCategories(authStore.token),
+                getBodyTypes(authStore.token),
+                getVehicle(authStore.token, vehicleId)
+            ])
 
-        getBodyTypes(authStore.token).then(res => {
-            bodyTypes.value = res.data.data
-        }).catch(err => {
-            console.log(err);
-        })
-
-        getVehicle(authStore.token, vehicleId).then(res => {
-            data.value = res.data.data
-
-            loading.value = false
-        }).catch(err => {
-            loading.value = false
-        });
+            vehicleCategories.value = categoriesRes.data.data;
+            bodyTypes.value = bodyTypesRes.data.data;
+            data.value = vehicleRes.data.data;
+        } catch (err) {
+            notify({
+                title: "Ошибка",
+                text: "Не удалось загрузить данные. Попробуйте позже.",
+                type: 'error'
+            });
+        } finally {
+            loading.value = false;
+        }
 
         initYearMask()
         initVINMask()
@@ -168,7 +140,7 @@
             <button type="button" v-on:click="action()" class="text-sm bg-sky-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
                     <Edit color="#FFF"/>
-                    <div>Сохранить</div>
+                    <div>{{ actionLoading ? 'Сохранение...' : 'Сохранить' }}</div>
                 </div>
             </button>
         </div>

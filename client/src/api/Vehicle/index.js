@@ -1,7 +1,7 @@
 import http from "../index";
 
-async function getVehicles(token, params) {
-    return await http.get('vehicles', {
+function getVehicles(token, params) {
+    return http.get('vehicles', {
         headers: {
             Authorization: `Bearer ${token}`
         },
@@ -9,48 +9,48 @@ async function getVehicles(token, params) {
     });
 }
 
-async function getVehicleCategories(token) {
-    return await http.get('vehicle-categories', {
+function getVehicleCategories(token) {
+    return http.get('vehicle-categories', {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function getBodyTypes(token) {
-    return await http.get('body-types', {
+function getBodyTypes(token) {
+    return http.get('body-types', {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function getVehicle(token, id) {
-    return await http.get('vehicles/'+id, {
+function getVehicle(token, id) {
+    return http.get('vehicles/'+id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function storeVehicle(data, token) {
-    return await http.post('vehicles', data, {
+function storeVehicle(data, token) {
+    return http.post('vehicles', data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function updateVehicle(data, id, token) {
-    return await http.put('vehicles/'+id, data, {
+function updateVehicle(data, id, token) {
+    return http.put('vehicles/'+id, data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function deleteVehicle(token, id) {
-    return await http.delete('vehicles/'+id, {
+function deleteVehicle(token, id) {
+    return http.delete('vehicles/'+id, {
         headers: {
             Authorization: `Bearer ${token}`
         }

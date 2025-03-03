@@ -23,22 +23,26 @@
         userId.value = id;
     }
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         loadingDelete.value = true;
-        deleteVehicle(authStore.token, userId.value).then(res => {
-            loadingDelete.value = false
-            isOpen.value = false
+        
+        try {
+            const res = await deleteVehicle(authStore.token, userId.value);
 
             notify({
                 title: "Удаление",
                 text: res.data.message,
                 type: 'success'
             });
+            
             fetchVehicles()
-        }).catch(err => {
+        } catch (err) {
             loadingDelete.value = false
             isOpen.value = false
-        });
+        } finally {
+            loadingDelete.value = false
+            isOpen.value = false
+        }
     }
 
     const linkPrev = () => {
@@ -57,17 +61,21 @@
         return "/me/vehicles?page=" + (response.value.current_page + 1);
     }
 
-    const fetchVehicles = () => {
+    const fetchVehicles = async () => {
         loading.value = true;
 
         const params = route.query
 
-        getVehicles(authStore.token, params).then(res => {
+        try {
+            const res = await getVehicles(authStore.token, params);
+
             response.value = res.data.data
             loading.value = false
-        }).catch(err => {
+        } catch (err) {
+            console.log(err);
+        } finally {
             loading.value = false
-        });
+        }
     };
 
     const getStatusClass = (statusId) => {

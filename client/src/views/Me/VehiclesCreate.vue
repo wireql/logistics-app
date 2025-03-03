@@ -13,56 +13,42 @@
     const authStore = useAuthStore()
 
     const actionLoading = ref(false);
+    const loading = ref(false);
     const vehicleCategories = ref([])
     const bodyTypes = ref([])
-    const data = ref({
-        brand: null,
-        model: null,
-        year: null,
-        vin_number: null,
-        register_number: null,
-        max_volume: null,
-        max_weight: null,
-        vehicle_category_id: null,
-        body_type_id: null,
-    });
-    const data__errors = ref({
-        brand: [],
-        model: [],
-        year: [],
-        vin_number: [],
-        register_number: [],
-        max_volume: [],
-        max_weight: [],
-        vehicle_category_id: [],
-        body_type_id: [],
-    });
+    const yearInput = ref(null);
+    const vinInput = ref(null);
+    const fields = [
+        'brand', 'model', 'year', 'vin_number', 'register_number',
+        'max_volume', 'max_weight', 'vehicle_category_id', 'body_type_id'
+    ];
 
-    const action = () => {
+    const data = ref(Object.fromEntries(fields.map(field => [field, null])));
+    const data__errors = ref(Object.fromEntries(fields.map(field => [field, []])));
+
+    const resetErrors = () => {
+        Object.keys(data__errors.value).forEach(key => {
+            data__errors.value[key] = [];
+        });
+    };
+
+    const action = async () => {
         actionLoading.value = true;
 
-        data__errors.value = {
-            brand: [],
-            model: [],
-            year: [],
-            vin_number: [],
-            register_number: [],
-            max_volume: [],
-            max_weight: [],
-            vehicle_category_id: [],
-            body_type_id: [],
-        }
+        try {
+            resetErrors()   
+            
+            const response = await storeVehicle(data.value, authStore.token);
 
-        storeVehicle(data.value, authStore.token).then(res => {
             notify({
                 title: "Добавление",
-                text: res.data.message,
+                text: response.data.message,
                 type: 'success'
             });
             actionLoading.value = false;
 
             router.push('/me/vehicles');
-        }).catch(err => {
+        } catch (err) {
             if(err.status >= 500) {
                 notify({
                     title: "API",
@@ -70,30 +56,19 @@
                     type: 'error'
                 });
 
-                actionLoading.value = false;
                 return;
             }
             
             const errors = err.response?.data?.errors || {};
-
-            data__errors.value = {
-                brand: errors.brand || [],
-                model: errors.model || [],
-                year: errors.year || [],
-                vin_number: errors.vin_number || [],
-                register_number: errors.register_number || [],
-                max_volume: errors.max_volume || [],
-                max_weight: errors.max_weight || [],
-                vehicle_category_id: errors.vehicle_category_id || [],
-                body_type_id: errors.body_type_id || [],
-            };
-
+            Object.keys(errors).forEach(key => {
+                if (data__errors.value[key] !== undefined) {
+                    data__errors.value[key] = errors[key];
+                }
+            });
+        } finally {
             actionLoading.value = false;
-        })
+        }
     }
-
-    const yearInput = ref(null);
-    const vinInput = ref(null);
 
     const initYearMask = () => {
         let a = yearInput.value.$el.querySelector('input');
@@ -120,22 +95,30 @@
         }).mask(a);
     }
 
-    onMounted(() => {
-        getVehicleCategories(authStore.token).then(res => {
-            vehicleCategories.value = res.data.data
-        }).catch(err => {
-            console.log(err);
-        })
+    onMounted(async () => {
+        loading.value = true;
 
-        getBodyTypes(authStore.token).then(res => {
-            bodyTypes.value = res.data.data
-        }).catch(err => {
-            console.log(err);
-        })
+        try {
+            const [categoriesRes, bodyTypesRes] = await Promise.all([
+                getVehicleCategories(authStore.token),
+                getBodyTypes(authStore.token),
+            ])
+
+            vehicleCategories.value = categoriesRes.data.data;
+            bodyTypes.value = bodyTypesRes.data.data;
+        } catch (err) {
+            notify({
+                title: "Ошибка",
+                text: "Не удалось загрузить данные. Попробуйте позже.",
+                type: 'error'
+            });
+        } finally {
+            loading.value = false;
+        }
 
         initYearMask()
         initVINMask()
-    })    
+    })   
 
 </script>
 
