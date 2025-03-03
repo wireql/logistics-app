@@ -4,18 +4,15 @@
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
     import { getBodyTypes, getVehicleCategories, storeVehicle } from '@/api/Vehicle';
+    import Inputmask from 'inputmask';
 
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
-    import Copy from '@/components/Icons/copy.vue';
     import InputGroup from '@/components/UI/InputGroup.vue'
-    import Gear from '@/components/Icons/gear.vue';
-    import CopyActive from '@/components/Icons/copy-active.vue';
 
     const authStore = useAuthStore()
 
     const actionLoading = ref(false);
-    const copy = ref(false);
     const vehicleCategories = ref([])
     const bodyTypes = ref([])
     const data = ref({
@@ -95,6 +92,34 @@
         })
     }
 
+    const yearInput = ref(null);
+    const vinInput = ref(null);
+
+    const initYearMask = () => {
+        let a = yearInput.value.$el.querySelector('input');
+        
+        Inputmask({
+            mask: '9999',
+            clearIncomplete: true,
+        }).mask(a);
+    }
+
+    const initVINMask = () => {
+        let a = vinInput.value.$el.querySelector('input');
+
+        Inputmask({
+            mask: "A{17}",
+            greedy: false,
+            clearIncomplete: true,
+            definitions: {
+                "A": {
+                    validator: "[A-HJ-NPR-Z0-9]",
+                    casing: "upper"
+                }
+            }
+        }).mask(a);
+    }
+
     onMounted(() => {
         getVehicleCategories(authStore.token).then(res => {
             vehicleCategories.value = res.data.data
@@ -107,7 +132,10 @@
         }).catch(err => {
             console.log(err);
         })
-    })
+
+        initYearMask()
+        initVINMask()
+    })    
 
 </script>
 
@@ -143,7 +171,7 @@
                 <div class="flex flex-col gap-6">
                     <InputGroup v-model="data.brand" :error="data__errors.brand[0]" label="Бренд" placeholder="MAN"/>
                     <InputGroup v-model="data.model" :error="data__errors.model[0]" label="Модель" placeholder="TGX"/>
-                    <InputGroup v-model="data.year" v-mask="'####'" :error="data__errors.year[0]" label="Год выпуска" placeholder="2024"/>
+                    <InputGroup ref="yearInput" v-model="data.year" :error="data__errors.year[0]" label="Год выпуска" placeholder="2024"/>
                     <div class="flex flex-col gap-[5px] w-full">
                         <label class="text-sm opacity-[60%]">Тип автомобиля</label>
                         <select v-model="data.vehicle_category_id" class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]">
@@ -172,7 +200,7 @@
                         v-model="data.vin_number" 
                         :error="data__errors.vin_number[0]" 
                         label="VIN" 
-                        v-mask="'XXXXXXXXXXXXXXXXX'"
+                        ref="vinInput"
                         placeholder="JHMCM56557C404453"/>
                 </div>
 

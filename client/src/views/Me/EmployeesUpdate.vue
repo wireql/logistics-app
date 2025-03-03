@@ -126,7 +126,7 @@
     <div class="mt-6 flex items-center justify-between">
         <div>
             <div class="text-2xl font-bold">Сотрудник</div>
-            <div class="text-xs">Добавление нового сотрудника</div>
+            <div class="text-xs">Обновление информации сотрудника</div>
         </div>
         <div class="flex items-center gap-[10px]">
             <router-link to="/me/employees" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
