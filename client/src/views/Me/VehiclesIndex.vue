@@ -8,18 +8,19 @@
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
     import Arrow from '@/components/Icons/arrow.vue';
+import Modal from '@/components/UI/Modal.vue';
 
     const response = ref([]);
     const loading = ref(false);
     const loadingDelete = ref(false);
-    const isOpen = ref(false);
+    const showModal = ref(false);
     const userId = ref(null);
 
     const authStore = useAuthStore()
     const route = useRoute();
 
     const deleteModal = (id) => {
-        isOpen.value = true;
+        showModal.value = true;
         userId.value = id;
     }
 
@@ -94,26 +95,23 @@
 </script>
 
 <template>
-    <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center p-6">
-        <div class="bg-white p-6 rounded-[12px] border border-gray-300 max-w-80 shadow-md">
-            <h2 class="text-lg font-bold">Подтвердите действие</h2>
-            <p class="mt-2 text-sm">Вы уверены, что хотите удалить данный автомобиль?</p>
-            
-            <div class="mt-4 flex justify-end space-x-2">
-                <button @click="isOpen = false" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
-                    <div class="flex items-center gap-[10px]">
-                        <div>Отмена</div>
-                    </div>
-                </button>
-                <button @click="confirmDelete()" class="text-sm bg-red-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
-                    <div class="flex items-center gap-[10px]">
-                        <span v-if="loadingDelete">Обработка...</span>
-                        <span v-else>Удалить</span>
-                    </div>
-                </button>
-            </div>
+    <Modal size="small" position="middle" :show="showModal">
+        <h2 class="text-lg font-bold">Подтвердите действие</h2>
+        <p class="mt-2 text-sm">Вы уверены, что хотите удалить данный автомобиль?</p>
+        
+        <div class="mt-4 flex justify-end space-x-2">
+            <button @click="showModal = false" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+                <div class="flex items-center gap-[10px]">
+                    <div>Отмена</div>
+                </div>
+            </button>
+            <button @click="confirmDelete()" class="text-sm bg-red-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+                <div class="flex items-center gap-[10px]">
+                    <span>{{ loadingDelete ? 'Удаление...' : 'Удалить' }}</span>
+                </div>
+            </button>
         </div>
-    </div>
+    </Modal>
 
     <div class="mt-6 flex items-center justify-between">
         <div class="text-2xl font-bold">Ваши Автомобили</div>
