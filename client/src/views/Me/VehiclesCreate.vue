@@ -138,7 +138,7 @@
             <button type="button" v-on:click="action()" class="text-sm bg-sky-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
                     <Edit color="#FFF"/>
-                    <div>Сохранить</div>
+                    <div>{{ actionLoading ? 'Сохранение...' : 'Сохранить' }}</div>
                 </div>
             </button>
         </div>

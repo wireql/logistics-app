@@ -20,38 +20,40 @@
      * Data and variables
      */
     const actionLoading = ref(false);
-    const data = ref({
-        email: null,
-        password: null,
-    })
-    const data__errors = ref({
-        email: [],
-        password: [],
-    });
+    const fields = [
+        'email', 'password'
+    ];
+
+    const data = ref(Object.fromEntries(fields.map(field => [field, null])));
+    const data__errors = ref(Object.fromEntries(fields.map(field => [field, []])));
+
+    const resetErrors = () => {
+        Object.keys(data__errors.value).forEach(key => {
+            data__errors.value[key] = [];
+        });
+    };
 
     /**
      * Methods
      */
-    const action = () => {
+    const action = async () => {
         actionLoading.value = true;
 
-        data__errors.value = {
-            email: [],
-            password: [],
-        }
+        try {
 
-        loginUser(data.value).then(res => {
+            const response = await loginUser(data.value);
+
             notify({
                 title: "Успешно",
-                text: res.data.message,
+                text: response.data.message,
                 type: 'success'
             });
             actionLoading.value = false;
 
-            authStore.setUser(res.data.data.user)
-            authStore.setToken(res.data.data.token)
+            authStore.setUser(response.data.data.user)
+            authStore.setToken(response.data.data.token)
             router.push('/me');
-        }).catch(err => {
+        } catch (err) {
             if(err.status >= 500) {
                 notify({
                     title: "API",
@@ -59,19 +61,19 @@
                     type: 'error'
                 });
 
-                actionLoading.value = false;
                 return;
             }
             
             const errors = err.response?.data?.errors || {};
+            Object.keys(errors).forEach(key => {
+                if (data__errors.value[key] !== undefined) {
+                    data__errors.value[key] = errors[key];
+                }
+            });
 
-            data__errors.value = {
-                email: errors.email || [],
-                password: errors.password || [],
-            };
-
+        } finally {
             actionLoading.value = false;
-        })
+        }
 
     }
 </script>
@@ -95,8 +97,7 @@
 
             <div class="flex flex-col gap-[5px]">
                 <Button v-on:click="action()">
-                    <div v-if="!actionLoading">Авторизоваться</div>
-                    <div v-else>Обработка...</div>
+                    <div>{{ actionLoading ? 'Авторизация...' : 'Авторизоваться' }}</div>
                 </Button>
                 <div class="text-sm text-right">Нет аккаунта? 
                     <router-link to="/register" class="underline">Зарегистрироваться</router-link>

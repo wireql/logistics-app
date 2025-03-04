@@ -1,6 +1,7 @@
 <script setup>
     import router from '@/router';
     import { logoutUser } from '@/api/User';
+    import { ref } from 'vue';
 
     import Cars from '@/components/Icons/cars.vue';
     import Employees from '@/components/Icons/employees.vue';
@@ -11,18 +12,26 @@
     import Tasks from '@/components/Icons/tasks.vue';
 
     import { useAuthStore } from '@/stores/auth';
-import Address from '@/components/Icons/address.vue';
+    import Address from '@/components/Icons/address.vue';
+
+    const actionLoading = ref(false);
 
     const authStore = useAuthStore()
 
-    const logout = () => {
-        logoutUser(authStore.token).then(res => {
+    const logout = async () => {
+        actionLoading.value = true;
+
+        try {
+            const response = await logoutUser(authStore.token);
+
             authStore.logout()
             router.push('/login')
-        }).catch(err => {
+        } catch (err) {
             authStore.logout()
             router.push('/login')
-        })
+        } finally {
+            actionLoading.value = false;
+        }
     }
 </script>
 
@@ -82,7 +91,7 @@ import Address from '@/components/Icons/address.vue';
                 </div>
                 <div class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer" v-on:click="logout()">
                     <Quit />
-                    <div class="text-sm font-bold hidden lg:block">Выход</div>
+                    <div class="text-sm font-bold hidden lg:block">{{ actionLoading ? 'Выходим...' : 'Выход' }}</div>
                 </div>
             </div>
 

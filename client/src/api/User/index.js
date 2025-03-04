@@ -1,23 +1,23 @@
 import http from "../index";
 
-async function getUser(token) {
-    return await http.get('user', {
+function getUser(token) {
+    return http.get('user', {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function registerUser(data) {
-    return await http.post('register', data);
+function registerUser(data) {
+    return http.post('register', data);
 }
 
-async function loginUser(data) {
-    return await http.post('login', data);
+function loginUser(data) {
+    return http.post('login', data);
 }
 
-async function logoutUser(token) {
-    return await http.post('logout', {}, {
+function logoutUser(token) {
+    return http.post('logout', {}, {
         headers: {
             Authorization: `Bearer ${token}`
         }
