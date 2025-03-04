@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressCategorieController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BodyTypeController;
@@ -24,6 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/vehicle-categories', [VehicleCetegorieController::class, 'index']);
     Route::get('/body-types', [BodyTypeController::class, 'index']);
     
+    Route::get('/address-categories', [AddressCategorieController::class, 'index']);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

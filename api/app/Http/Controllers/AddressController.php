@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Address\AddressRequest;
+use App\Http\Requests\Address\AddressUpdateRequest;
 use App\Models\Address;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $item = Address::query()->get();
+        $item = Address::query()->with('category')->paginate(10);
 
         return response()->json([
             "message" => "Список адресов успешно получен.",
@@ -59,7 +60,7 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AddressRequest $request, string $id)
+    public function update(AddressUpdateRequest $request, string $id)
     {
         $item = $request->user()->addresses()->find($id);
 

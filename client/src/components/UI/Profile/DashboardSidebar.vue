@@ -70,7 +70,7 @@
                         <Cars />
                         <div class="text-sm font-bold hidden lg:block">Автомобили</div>
                     </router-link>
-                    <router-link :to="{'name': 'VehiclesIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                    <router-link :to="{'name': 'AddressIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Address color="#212529" />
                         <div class="text-sm font-bold hidden lg:block">Адреса</div>
                     </router-link>

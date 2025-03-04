@@ -11,4 +11,8 @@ class Address extends Model
         'address_category_id',
         'company_id'
     ];
+
+    public function category() {
+        return $this->belongsTo(AddressCategories::class, 'address_category_id');
+    }
 }

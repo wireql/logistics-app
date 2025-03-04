@@ -13,6 +13,9 @@ import { useAuthStore } from '@/stores/auth'
 import VehiclesIndex from '@/views/Me/VehiclesIndex.vue'
 import VehiclesUpdate from '@/views/Me/VehiclesUpdate.vue'
 import VehiclesCreate from '@/views/Me/VehiclesCreate.vue'
+import AddressIndex from '@/views/Me/AddressIndex.vue'
+import AddressCreate from '@/views/Me/AddressCreate.vue'
+import AddressUpdate from '@/views/Me/AddressUpdate.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,6 +90,24 @@ const router = createRouter({
 					path: 'vehicles/:id',
 					name: 'VehiclesUpdate',
 					component: VehiclesUpdate,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'address',
+					name: 'AddressIndex',
+					component: AddressIndex,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'address/new',
+					name: 'AddressCreate',
+					component: AddressCreate,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'address/:id',
+					name: 'AddressUpdate',
+					component: AddressUpdate,
 					meta: { requiresAuth: true },
 				},
 			]

@@ -1,7 +1,7 @@
 import http from "../index";
 
-async function getEmployees(token, params) {
-    return await http.get('employees', {
+function getEmployees(token, params) {
+    return http.get('employees', {
         headers: {
             Authorization: `Bearer ${token}`
         },
@@ -9,32 +9,32 @@ async function getEmployees(token, params) {
     });
 }
 
-async function getEmployee(token, id) {
-    return await http.get('employees/'+id, {
+function getEmployee(token, id) {
+    return http.get('employees/'+id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function storeEmployee(data, token) {
-    return await http.post('employees', data, {
+function storeEmployee(data, token) {
+    return http.post('employees', data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function updateEmployee(data, id, token) {
-    return await http.put('employees/'+id, data, {
+function updateEmployee(data, id, token) {
+    return http.put('employees/'+id, data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 }
 
-async function deleteEmployee(token, id) {
-    return await http.delete('employees/'+id, {
+function deleteEmployee(token, id) {
+    return http.delete('employees/'+id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
