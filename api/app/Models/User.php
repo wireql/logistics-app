@@ -63,6 +63,10 @@ class User extends Authenticatable
         return $this->hasMany(Vehicle::class, 'company_id', 'company_id');
     }
 
+    public function tasks() {
+        return $this->hasMany(Task::class, 'company_id', 'company_id');
+    }
+
     public function category() {
         return $this->belongsTo(UserCategory::class, 'user_category_id');
     }

@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('address_from');
-            $table->string('address_to');
+            $table->date('plan_delivery');
+            $table->text('description')->nullable();
 
-            $table->unsignedBigInteger('vehicle_id')->default(null);
+            $table->unsignedBigInteger('vehicle_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('task_status_id');
+            $table->unsignedBigInteger('task_status_id')->default(1);
 
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('RESTRICT');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->foreign('task_status_id')->references('id')->on('task_statuses')->onDelete('RESTRICT');
 
+            $table->timestamp('ended_at')->nullable();
             $table->timestamps();
         });
     }

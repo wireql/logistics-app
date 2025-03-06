@@ -101,10 +101,10 @@
     </Modal>
 
     <div class="mt-6 flex items-center justify-between">
-        <div class="text-2xl font-bold">Ваши Автомобили</div>
+        <div class="text-2xl font-bold">Ваши адреса</div>
 
         <router-link :to="{'name': 'AddressCreate'}" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
-            Добавить автомобиль
+            Добавить адрес
         </router-link>
     </div>
 
@@ -127,7 +127,7 @@
             <table class="table-auto w-full">
                 <thead>
                     <tr>
-                        <th class="text-xs font-normal py-3 text-left px-1">Наименование</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">Адрес</th>
                         <th class="text-xs font-normal py-3 text-left px-1">Категория</th>
                         <th class="text-xs font-normal py-3 text-left px-1">Действия</th>
                     </tr>

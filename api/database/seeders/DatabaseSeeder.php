@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             VehicleStatusesSeeder::class,
             VehicleCategoriesSeeder::class,
             BodyTypesSeeder::class,
+            TaskStatusesSeeder::class
         ]);
     }
 }

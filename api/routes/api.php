@@ -5,6 +5,8 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BodyTypeController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskPointController;
 use App\Http\Controllers\VehicleCetegorieController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleStatusController;
@@ -20,6 +22,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('address', AddressController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('employees', EmployeeController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('vehicles', VehicleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('tasks', TaskController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::prefix('tasks/{task}')->group(function () {
+        Route::resource('task-points', TaskPointController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    });
 
     Route::get('/vehicle-statuses', [VehicleStatusController::class, 'index']);
     Route::get('/vehicle-categories', [VehicleCetegorieController::class, 'index']);

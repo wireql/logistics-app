@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    use HasUuids;
-
     protected $fillable = [
-        'address_from',
-        'address_to',
+        'plan_delivery',
+        'description',
         'vehicle_id',
         'user_id',
-        'employee_id',
+        'company_id',
         'task_status_id',
+        'ended_at',
     ];
+
+    public function task_points() {
+        return $this->hasMany(TaskPoint::class, 'task_id', 'id');
+    }
 }

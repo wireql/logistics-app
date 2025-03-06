@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('address_from_id');
             $table->unsignedBigInteger('address_to_id');
-            $table->dateTime('delivery');
+            $table->date('plan_delivery');
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('task_point_status_id')->default(1);
             $table->timestamps();
