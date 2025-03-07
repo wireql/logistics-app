@@ -17,6 +17,14 @@ function getVehicleCategories(token) {
     });
 }
 
+function getVehicleStatuses(token) {
+    return http.get('vehicle-statuses', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+
 function getBodyTypes(token) {
     return http.get('body-types', {
         headers: {
@@ -64,5 +72,6 @@ export {
     updateVehicle,
     deleteVehicle,
     getVehicleCategories,
-    getBodyTypes
+    getBodyTypes,
+    getVehicleStatuses
 }

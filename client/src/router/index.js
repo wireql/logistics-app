@@ -4,18 +4,19 @@ import RegisterView from '../views/Auth/RegisterView.vue'
 import LoginView from '../views/Auth/LoginView.vue'
 import Dashboard from '@/views/Me/Dashboard.vue'
 import Index from '@/views/Me/Index.vue'
-import Tasks from '@/views/Me/Tasks.vue'
-import EmployeesIndex from '@/views/Me/EmployeesIndex.vue'
-import EmployeesCreate from '@/views/Me/EmployeesCreate.vue'
-import EmployeesUpdate from '@/views/Me/EmployeesUpdate.vue'
+import TasksIndex from '@/views/Me/Task/TasksIndex.vue'
+import EmployeesIndex from '@/views/Me/Employee/EmployeesIndex.vue'
+import EmployeesCreate from '@/views/Me/Employee/EmployeesCreate.vue'
+import EmployeesUpdate from '@/views/Me/Employee/EmployeesUpdate.vue'
 
 import { useAuthStore } from '@/stores/auth'
-import VehiclesIndex from '@/views/Me/VehiclesIndex.vue'
-import VehiclesUpdate from '@/views/Me/VehiclesUpdate.vue'
-import VehiclesCreate from '@/views/Me/VehiclesCreate.vue'
-import AddressIndex from '@/views/Me/AddressIndex.vue'
-import AddressCreate from '@/views/Me/AddressCreate.vue'
-import AddressUpdate from '@/views/Me/AddressUpdate.vue'
+import VehiclesIndex from '@/views/Me/Vehicle/VehiclesIndex.vue'
+import VehiclesUpdate from '@/views/Me/Vehicle/VehiclesUpdate.vue'
+import VehiclesCreate from '@/views/Me/Vehicle/VehiclesCreate.vue'
+import AddressIndex from '@/views/Me/Address/AddressIndex.vue'
+import AddressCreate from '@/views/Me/Address/AddressCreate.vue'
+import AddressUpdate from '@/views/Me/Address/AddressUpdate.vue'
+import TasksCreate from '@/views/Me/Task/TasksCreate.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,8 +53,14 @@ const router = createRouter({
 				},
 				{
 					path: 'tasks',
-					name: 'tasks',
-					component: Tasks,
+					name: 'TasksIndex',
+					component: TasksIndex,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'tasks/new',
+					name: 'TasksCreate',
+					component: TasksCreate,
 					meta: { requiresAuth: true },
 				},
 				{

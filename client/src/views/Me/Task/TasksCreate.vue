@@ -3,19 +3,22 @@
     import { onMounted, ref } from 'vue'; 
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
+    import { getEmployees } from '@/api/Employee';
+    import { getVehicles } from '@/api/Vehicle';
+    import { storeTasks } from '@/api/Task';
 
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
     import InputGroup from '@/components/UI/InputGroup.vue'
-    import { getAddressCategories, storeAddress } from '@/api/Address';
 
     const authStore = useAuthStore()
 
     const actionLoading = ref(false);
     const loading = ref(false);
-    const addressCategories = ref(null);
+    const employees = ref([]);
+    const vehicles = ref([]);
     const fields = [
-        'name', 'address_category_id'
+        'plan_delivery', 'vehicle_id', 'user_id'
     ];
 
     const data = ref(Object.fromEntries(fields.map(field => [field, null])));
@@ -33,7 +36,7 @@
         try {
             resetErrors()   
             
-            const response = await storeAddress(data.value, authStore.token);
+            const response = await storeTasks(data.value, authStore.token);
 
             notify({
                 title: "Добавление",
@@ -42,7 +45,7 @@
             });
             actionLoading.value = false;
 
-            router.push('/me/address');
+            router.push('/me/tasks');
         } catch (err) {
             if(err.status >= 500) {
                 notify({
@@ -69,9 +72,13 @@
         loading.value = true;
 
         try {
-            const categoriesRes = await getAddressCategories(authStore.token);
+            const [employeeRes, vehiclesRes] = await Promise.all([
+                getEmployees(authStore.token, {'category': 4}),
+                getVehicles(authStore.token, {'status': 1})
+            ])
 
-            addressCategories.value = categoriesRes.data.data;
+            employees.value = employeeRes.data.data;
+            vehicles.value = vehiclesRes.data.data;
         } catch (err) {
             notify({
                 title: "Ошибка",
@@ -89,11 +96,11 @@
 <template>
     <div class="mt-6 flex items-center justify-between">
         <div>
-            <div class="text-2xl font-bold">Адрес</div>
-            <div class="text-xs">Добавление нового адреса</div>
+            <div class="text-2xl font-bold">Задача</div>
+            <div class="text-xs">Создание новой задачи</div>
         </div>
         <div class="flex items-center gap-[10px]">
-            <router-link :to="{'name': 'VehiclesIndex'}" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+            <router-link :to="{'name': 'TasksIndex'}" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
                     <Delete color="black"/>
                     <div>Отмена</div>
@@ -116,19 +123,39 @@
                 <div class="text-base">Основная информация</div>
                 <hr class="border-gray-300 my-3">
                 <div class="flex flex-col gap-6">
-                    <InputGroup v-model="data.name" :error="data__errors.name[0]" label="Адрес" placeholder="Ростов-на-Дону, ул. Крутая, д. 35"/>
+                    <InputGroup v-model="data.plan_delivery" :error="data__errors.plan_delivery[0]" label="Плановая доставка" type="date" placeholder=""/>
+
                     <div class="flex flex-col gap-[5px] w-full">
-                        <label class="text-sm opacity-[60%]">Категория</label>
-                        <select v-model="data.address_category_id" class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]">
+                        <label class="text-sm opacity-[60%]">Описание</label>
+                        <textarea class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]"></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-[5px] w-full">
+                        <label class="text-sm opacity-[60%]">Водитель</label>
+                        <select v-model="data.user_id" class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]">
                             <option
-                                v-for="category in addressCategories"
-                                :key="category.id"
-                                :value="category.id"
+                                v-for="employee in employees.data"
+                                :key="employee.id"
+                                :value="employee.id"
                             >
-                            {{ category.name }}
+                            {{ employee.category.name + " - " + employee.first_name }}
                             </option>
                         </select>
-                        <p v-if="data__errors.address_category_id !== null" class="text-red-300 text-xs">{{ data__errors.address_category_id[0] }}</p>
+                        <p v-if="data__errors.user_id !== null" class="text-red-300 text-xs">{{ data__errors.user_id[0] }}</p>
+                    </div>
+
+                    <div class="flex flex-col gap-[5px] w-full">
+                        <label class="text-sm opacity-[60%]">Автомобиль</label>
+                        <select v-model="data.vehicle_id" class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]">
+                            <option
+                                v-for="vehicle in vehicles.data"
+                                :key="vehicle.id"
+                                :value="vehicle.id"
+                            >
+                            {{ vehicle.brand + " " + vehicle.model + " - " + vehicle.status.name }}
+                            </option>
+                        </select>
+                        <p v-if="data__errors.user_id !== null" class="text-red-300 text-xs">{{ data__errors.user_id[0] }}</p>
                     </div>
                 </div>
             </div>

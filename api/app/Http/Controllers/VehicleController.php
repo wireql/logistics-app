@@ -13,7 +13,15 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $item = $request->user()->vehicles()->with(['status', 'category', 'body_type'])->paginate(10);
+        $user = $request->user();
+
+        $query = $user->vehicles();
+
+        if($request->has('status')) {
+            $query->where('vehicle_status_id', $request->input('status'));
+        }
+
+        $item = $query->with(['status', 'category', 'body_type'])->paginate(10);
 
         return response()->json([
             "message" => "Список автомобилей успешно получен.",

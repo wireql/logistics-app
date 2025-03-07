@@ -13,11 +13,19 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $item = $request->user()->employees()->with('category')->paginate(10);
+        $user = $request->user();
+
+        $query = $user->employees();
+
+        if ($request->has('category')) {
+            $query->where('user_category_id', $request->input('category'));
+        }
+
+        $items = $query->with('category')->paginate(10);
 
         return response()->json([
             "message" => "Список сотрудников успешно получен.",
-            "data" => $item
+            "data" => $items
         ]);
     }
 

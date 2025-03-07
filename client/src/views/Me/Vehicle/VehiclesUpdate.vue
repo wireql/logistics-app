@@ -4,7 +4,7 @@
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
     import { useRoute } from 'vue-router';
-    import { getBodyTypes, getVehicle, getVehicleCategories, updateVehicle } from '@/api/Vehicle';
+    import { getBodyTypes, getVehicle, getVehicleCategories, getVehicleStatuses, updateVehicle } from '@/api/Vehicle';
 
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
@@ -16,12 +16,13 @@
     const loading = ref(false);
     const vehicleCategories = ref([])
     const bodyTypes = ref([])
+    const vehicleStatuses = ref([])
     const actionLoading = ref(false);
     const yearInput = ref(null);
     const vinInput = ref(null);
     const fields = [
         'brand', 'model', 'year', 'vin_number', 'register_number',
-        'max_volume', 'max_weight', 'vehicle_category_id', 'body_type_id'
+        'max_volume', 'max_weight', 'vehicle_category_id', 'body_type_id', 'vehicle_status_id'
     ];
 
     const data = ref(Object.fromEntries(fields.map(field => [field, null])));
@@ -99,14 +100,16 @@
         loading.value = true;
 
         try {
-            const [categoriesRes, bodyTypesRes, vehicleRes] = await Promise.all([
+            const [categoriesRes, bodyTypesRes, vehicleRes, vehicleStatusesRes] = await Promise.all([
                 getVehicleCategories(authStore.token),
                 getBodyTypes(authStore.token),
-                getVehicle(authStore.token, vehicleId)
+                getVehicle(authStore.token, vehicleId),
+                getVehicleStatuses(authStore.token)
             ])
 
             vehicleCategories.value = categoriesRes.data.data;
             bodyTypes.value = bodyTypesRes.data.data;
+            vehicleStatuses.value = vehicleStatusesRes.data;
             data.value = vehicleRes.data.data;
         } catch (err) {
             notify({
@@ -169,6 +172,19 @@
                             </option>
                         </select>
                         <p v-if="data__errors.vehicle_category_id !== null" class="text-red-300 text-xs">{{ data__errors.vehicle_category_id[0] }}</p>
+                    </div>
+                    <div class="flex flex-col gap-[5px] w-full">
+                        <label class="text-sm opacity-[60%]">Статус автомобиля</label>
+                        <select v-model="data.vehicle_status_id" class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]">
+                            <option
+                                v-for="status in vehicleStatuses.data"
+                                :key="status.id"
+                                :value="status.id"
+                            >
+                            {{ status.name }}
+                            </option>
+                        </select>
+                        <p v-if="data__errors.vehicle_status_id !== null" class="text-red-300 text-xs">{{ data__errors.vehicle_status_id[0] }}</p>
                     </div>
                 </div>
 

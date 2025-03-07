@@ -14,11 +14,9 @@
     const copy = ref(false);
     const props = defineProps({
         uuid: String,
-        datetime: Date,
-        address_from: String,
-        address_to: String,
+        datetime: String,
         cargo: String,
-        deadline: Date,
+        deadline: String,
     });
 
     const hideModal = () => {
@@ -49,6 +47,10 @@
             console.error('Ошибка копирования: ', err);
         }
     }
+
+    const formatDateTime = (datetime) => {
+        return datetime.replace("T", " ").split(".")[0];
+    }
 </script>
 
 <template>
@@ -59,22 +61,10 @@
                 <Copy v-if="!copy" color="#797979" size="14" />
                 <CopyActive v-else color="#797979" size="14" />
             </div>
-            <div class="text-xs opacity-[60%]">{{ datetime }}</div>
+            <div class="text-xs opacity-[60%]">{{ formatDateTime(datetime) }}</div>
         </div>
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4 sm:gap-16 flex-wrap">
-                <div class="flex items-start gap-6">
-                    <div class="flex flex-col gap-[5px]">
-                        <div class="text-sm">{{ address_from }}</div>
-                        <div class="text-xs opacity-[60%]">Откуда</div>
-                    </div>
-                    <ArrowWay />
-                    <div class="flex flex-col gap-[5px]">
-                        <div class="text-sm">{{ address_to }}</div>
-                        <div class="text-xs opacity-[60%]">Куда</div>
-                    </div>
-                </div>
-
                 <div class="flex flex-col gap-[5px]">
                     <div class="text-sm">{{ cargo }}</div>
                     <div class="text-xs opacity-[60%]">Груз</div>

@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $item = $request->user()->tasks()->get();
+        $item = $request->user()->tasks()->paginate(10);
 
         return response()->json([
             "message" => "Список задач успешно получен.",
