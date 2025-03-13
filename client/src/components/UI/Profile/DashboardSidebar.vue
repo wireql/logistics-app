@@ -100,7 +100,7 @@
             <div class="flex items-center justify-center lg:justify-start lg:gap-[15px]">
                 <div class="w-[24px] h-[24px] rounded-full bg-dark-50"></div>
                 <div class="flex flex-col gap-[5px] hidden lg:block">
-                    <div class="text-sm font-bold">{{ authStore.user.first_name }} {{ authStore.user.last_name }}</div>
+                    <div class="text-sm font-bold">{{ authStore.user.first_name }} {{ authStore.user.middle_name }} {{ authStore.user.last_name }}</div>
                     <div class="text-xs">{{ authStore.user.email }}</div>
                 </div>
             </div>

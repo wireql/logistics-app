@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class RouteList extends Model
 {
     protected $fillable = [
         'plan_delivery',
@@ -12,11 +12,11 @@ class Task extends Model
         'vehicle_id',
         'user_id',
         'company_id',
-        'task_status_id',
+        'route_list_status_id',
         'ended_at',
     ];
 
-    public function task_points() {
-        return $this->hasMany(TaskPoint::class, 'task_id', 'id');
+    public function route_points() {
+        return $this->hasMany(RoutePoint::class, 'route_list_id', 'id');
     }
 }

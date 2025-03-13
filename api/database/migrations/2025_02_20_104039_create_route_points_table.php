@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_points', function (Blueprint $table) {
+        Schema::create('route_points', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('address_from_id');
             $table->unsignedBigInteger('address_to_id');
             $table->date('plan_delivery');
-            $table->unsignedBigInteger('task_id');
-            $table->unsignedBigInteger('task_point_status_id')->default(1);
+            $table->unsignedBigInteger('route_list_id');
+            $table->unsignedBigInteger('route_point_status_id')->default(1);
             $table->timestamps();
 
             $table->foreign('address_from_id')->references('id')->on('addresses')->onDelete('RESTRICT');
             $table->foreign('address_to_id')->references('id')->on('addresses')->onDelete('RESTRICT');
-            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('RESTRICT');
-            $table->foreign('task_point_status_id')->references('id')->on('task_point_statuses')->onDelete('RESTRICT');
+            $table->foreign('route_list_id')->references('id')->on('route_lists')->onDelete('RESTRICT');
+            $table->foreign('route_point_status_id')->references('id')->on('route_point_statuses    ')->onDelete('RESTRICT');
 
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_points');
+        Schema::dropIfExists('route_points');
     }
 };

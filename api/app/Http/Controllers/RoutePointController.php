@@ -6,23 +6,23 @@ use App\Http\Requests\TaskPoint\TaskPointRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
-class TaskPointController extends Controller
+class RoutePointController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request, $task)
     {
-        $item = $request->user()->tasks()->find($task);
+        $item = $request->user()->route_lists()->find($task);
 
         if(!$item) {
             return response()->json([
-                "message" => "Задача не найдена.",
+                "message" => "Маршрутный лист не найден.",
                 "data" => []
             ], 404);
         }
 
-        $task_points = $item->task_points()->get();
+        $task_points = $item->route_points()->get();
 
         return response()->json([
             "message" => "Список подзадач успешно получен.",
@@ -37,16 +37,16 @@ class TaskPointController extends Controller
     {
         $fields = $request->validated();
 
-        $item = $request->user()->tasks()->find($task);
+        $item = $request->user()->route_lists()->find($task);
 
         if(!$item) {
             return response()->json([
-                "message" => "Задача не найдена.",
+                "message" => "Маршрутный лист не найден.",
                 "data" => []
             ], 404);
         }
 
-        $task_point = $item->task_points()->create($fields);
+        $task_point = $item->route_points()->create($fields);
 
         return response()->json([
             "message" => "Подзадача успешно добавлена.",
@@ -59,16 +59,16 @@ class TaskPointController extends Controller
      */
     public function show(Request $request, $task, string $id)
     {
-        $item = $request->user()->tasks()->find($task);
+        $item = $request->user()->route_lists()->find($task);
 
         if(!$item) {
             return response()->json([
-                "message" => "Задача не найдена.",
+                "message" => "Маршрутный лист не найден.",
                 "data" => []
             ], 404);
         }
 
-        $task_point = $item->task_points()->find($id);
+        $task_point = $item->route_points()->find($id);
         
         if(!$task_point) {
             return response()->json([

@@ -6,17 +6,17 @@ use App\Http\Requests\Task\TaskRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class TaskController extends Controller
+class RouteListController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $item = $request->user()->tasks()->paginate(10);
+        $item = $request->user()->route_lists()->paginate(10);
 
         return response()->json([
-            "message" => "Список задач успешно получен.",
+            "message" => "Список маршрутных листов успешно получен.",
             "data" => $item
         ]);
     }
@@ -57,10 +57,10 @@ class TaskController extends Controller
             }
         }
 
-        $item = $request->user()->tasks()->create($fields);
+        $item = $request->user()->route_lists()->create($fields);
 
         return response()->json([
-            "message" => "Задача успешно добавлена.",
+            "message" => "Маршрутный лист успешно добавлен.",
             "data" => $item
         ], 201);
     }
@@ -70,17 +70,17 @@ class TaskController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $item = $request->user()->tasks()->find($id);
+        $item = $request->user()->route_lists()->find($id);
         
         if(!$item) {
             return response()->json([
-                "message" => "Информация о данной задаче не найдена",
+                "message" => "Информация о данном маршрутном листе не найдена",
                 "data" => null
             ], 404);
         }
         
         return response()->json([
-            "message" => "Информация а задаче успешно получена",
+            "message" => "Информация о маршрутном листе успешно получена",
             "data" => $item
         ]);
     }
@@ -98,11 +98,11 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $item = $request->user()->tasks()->find($id);
+        $item = $request->user()->route_lists()->find($id);
 
         if(!$item) {
             return response()->json([
-                "message" => "Информация о данной задаче не найдена",
+                "message" => "Информация о данном маршрутном листе не найдена",
                 "data" => null
             ], 404);
         }
@@ -110,7 +110,7 @@ class TaskController extends Controller
         $item->delete();
 
         return response()->json([
-            "message" => "Задача успешно удалена",
+            "message" => "Маршрутный лист успешно удалена",
             "data" => []
         ]);
     }
