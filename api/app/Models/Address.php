@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $fillable = [
-        'name',
+        'country',
+        'region',
+        'city',
+        'street',
+        'building',
+        'flat',
+        'latitude',
+        'longitude',
         'address_category_id',
         'company_id'
     ];

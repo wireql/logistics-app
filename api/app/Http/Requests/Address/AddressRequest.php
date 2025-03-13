@@ -22,7 +22,14 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:100'],
+            'region' => ['required', 'string', 'max:100'],
+            'city' => ['required', 'string', 'max:100'],
+            'street' => ['required', 'string', 'max:100'],
+            'building' => ['required', 'string', 'max:20'],
+            'flat' => ['nullable', 'string', 'max:20'],
+            'latitude' => ['nullable', 'numeric'],
+            'longitude' => ['nullable', 'numeric'],
             'address_category_id' => ['required', 'exists:address_categories,id'],
         ];
     }
@@ -33,11 +40,35 @@ class AddressRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Поле "Название" обязательно для заполнения.',
-            'name.string' => 'Поле "Название" должно быть строкой.',
-            'name.max' => 'Поле "Название" не может содержать более 255 символов.',
-            'address_category_id.required' => 'Поле "Категория адреса" обязательно для заполнения.',
-            'address_category_id.exists' => 'Выбранная "Категория адреса" недействительна.',
+            'country.required' => 'Страна обязательна для заполнения.',
+            'country.string' => 'Страна должна быть строкой.',
+            'country.max' => 'Название страны не должно превышать 100 символов.',
+
+            'region.required' => 'Регион обязателен для заполнения.',
+            'region.string' => 'Регион должен быть строкой.',
+            'region.max' => 'Название региона не должно превышать 100 символов.',
+
+            'city.required' => 'Город обязателен для заполнения.',
+            'city.string' => 'Город должен быть строкой.',
+            'city.max' => 'Название города не должно превышать 100 символов.',
+
+            'street.required' => 'Улица обязательна для заполнения.',
+            'street.string' => 'Улица должна быть строкой.',
+            'street.max' => 'Название улицы не должно превышать 100 символов.',
+
+            'building.required' => 'Номер здания обязателен для заполнения.',
+            'building.string' => 'Номер здания должен быть строкой.',
+            'building.max' => 'Номер здания не должен превышать 20 символов.',
+
+            'flat.string' => 'Номер квартиры должен быть строкой.',
+            'flat.max' => 'Номер квартиры не должен превышать 20 символов.',
+
+            'latitude.numeric' => 'Широта должна быть числом.',
+            'longitude.numeric' => 'Долгота должна быть числом.',
+
+            'address_category_id.required' => 'Категория адреса обязательна.',
+            'address_category_id.exists' => 'Выбранная категория адреса недействительна.',
         ];
     }
+
 }

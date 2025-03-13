@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('country', 100);
+            $table->string('region', 100);
+            $table->string('city', 100);
+            $table->string('street', 100);
+            $table->string('building', 20);
+            $table->string('flat', 20)->nullable()->default(null);
+            $table->decimal('latitude', 9, 6)->nullable()->default(null);
+            $table->decimal('longitude', 9, 6)->nullable()->default(null);
             $table->timestamps();
 
             $table->unsignedBigInteger('address_category_id');
