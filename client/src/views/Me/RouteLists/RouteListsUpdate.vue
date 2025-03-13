@@ -3,18 +3,20 @@
     import { onMounted, ref } from 'vue'; 
     import { useAuthStore } from '@/stores/auth';
     import router from '@/router';
-    import { getEmployees } from '@/api/Employee';
-    import { getVehicles } from '@/api/Vehicle';
-    import { storeRouteList } from '@/api/RouteList';
+    import { useRoute } from 'vue-router';
 
     import Delete from '@/components/Icons/delete.vue';
     import Edit from '@/components/Icons/edit.vue';
     import InputGroup from '@/components/UI/InputGroup.vue'
+    import { getEmployees } from '@/api/Employee';
+    import { getVehicles } from '@/api/Vehicle';
+    import { getRouteList, updateRouteList } from '@/api/RouteList';
 
     const authStore = useAuthStore()
-
-    const actionLoading = ref(false);
+    const route = useRoute();
+    const routeListId = route.params.id
     const loading = ref(false);
+    const actionLoading = ref(false);
     const employees = ref([]);
     const vehicles = ref([]);
     const fields = [
@@ -35,15 +37,14 @@
 
         try {
             resetErrors()   
-            
-            const response = await storeRouteList(data.value, authStore.token);
+
+            const response = await updateRouteList(data.value, routeListId, authStore.token);
 
             notify({
-                title: "Добавление",
+                title: "Обновление",
                 text: response.data.message,
                 type: 'success'
             });
-            actionLoading.value = false;
 
             router.push('/me/route-lists');
         } catch (err) {
@@ -72,13 +73,15 @@
         loading.value = true;
 
         try {
-            const [employeeRes, vehiclesRes] = await Promise.all([
+            const [employeeRes, vehiclesRes, routeListRes] = await Promise.all([
                 getEmployees(authStore.token, {'category': 4}),
-                getVehicles(authStore.token, {'status': 1})
+                getVehicles(authStore.token, {'status': 1}),
+                getRouteList(authStore.token, routeListId)
             ])
 
             employees.value = employeeRes.data.data;
             vehicles.value = vehiclesRes.data.data;
+            data.value = routeListRes.data.data;
         } catch (err) {
             notify({
                 title: "Ошибка",
@@ -89,7 +92,7 @@
             loading.value = false;
         }
 
-    })   
+    }) 
 
 </script>
 
@@ -97,7 +100,7 @@
     <div class="mt-6 flex flex-col sm:flex-row sm:items-center justify-between">
         <div>
             <div class="text-2xl font-bold">Маршрутный лист</div>
-            <div class="text-xs">Добавление нового маршрутного листа</div>
+            <div class="text-xs">Обновление информации об маршрутном листе</div>
         </div>
         <div class="flex items-center gap-[10px] mt-2">
             <router-link :to="{'name': 'RouteListsIndex'}" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">

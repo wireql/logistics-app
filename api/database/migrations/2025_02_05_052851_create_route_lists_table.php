@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('route_lists', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->date('plan_delivery');
             $table->text('description')->nullable();
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('address_from_id');
             $table->unsignedBigInteger('address_to_id');
             $table->date('plan_delivery');
-            $table->unsignedBigInteger('route_list_id');
+            $table->uuid('route_list_id');
             $table->unsignedBigInteger('route_point_status_id')->default(1);
             $table->timestamps();
 

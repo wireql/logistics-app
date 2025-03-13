@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\RoutePoint;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest
+class RoutePointRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,9 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'address_from_id' => ['required', 'exists:addresses,id'],
+            'address_to_id' => ['required', 'exists:addresses,id'],
             'plan_delivery' => ['required', 'date'],
-            'description' => ['max:255'],
-            'vehicle_id' => ['exists:vehicles,id'],
-            'user_id' => ['exists:users,id'],
         ];
     }
 }
