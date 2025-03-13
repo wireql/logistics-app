@@ -123,34 +123,35 @@
 </script>
 
 <template>
-    <div class="mt-6 flex items-center justify-between">
+    <div class="mt-6 flex flex-col sm:flex-row sm:items-center justify-between">
         <div>
             <div class="text-2xl font-bold">Сотрудник</div>
-            <div class="text-xs">Обновление информации сотрудника</div>
+            <div class="text-xs">Обновление информации о сотруднике</div>
         </div>
-        <div class="flex items-center gap-[10px]">
-            <router-link to="/me/employees" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+        <div class="flex items-center gap-[10px] mt-2">
+            <router-link :to="{'name': 'EmployeesIndex'}" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
                     <Delete color="black"/>
-                    <div>Отмена</div>
+                    <div class="">Отмена</div>
                 </div>
             </router-link>
-            <button type="button" v-on:click="action()" class="text-sm bg-sky-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+            <button type="button" v-on:click="action()" class="text-sm bg-[#C1E0FF] text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
-                    <Edit color="#FFF"/>
-                    <div>Сохранить</div>
+                    <Edit color="#357CC5"/>
+                    <div class="text-[#357CC5]">Сохранить</div>
                 </div>
             </button>
         </div>
-     </div>
+    </div>
 
     <hr class="border-gray-300 my-[24px]">
 
     <div class="mt-6">
         <div class="grid grid-cols-12 gap-5">
-            <div class="col-span-4">
-                <div class="text-base">Основная информация</div>
-                <hr class="border-gray-300 my-3">
+            <div class="col-span-12 sm:col-span-4 xl:col-span-3">
+                <div class="text-sm font-bold">Основная информация</div>
+            </div>
+            <div class="col-span-12 sm:col-span-8 xl:col-span-4">
                 <div class="flex flex-col gap-6">
                     <InputGroup v-model="data.last_name" :error="data__errors.last_name[0]" label="Фамилия" placeholder="Иванов"/>
                     <InputGroup v-model="data.first_name" :error="data__errors.first_name[0]" label="Имя" placeholder="Иван"/>
@@ -165,9 +166,16 @@
                         <p v-if="data__errors.user_category_id !== null" class="text-red-300 text-xs">{{ data__errors.user_category_id[0] }}</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <hr class="border-gray-300 my-[24px]">
 
-                <div class="text-base mt-6">Личный кабинет</div>
-                <hr class="border-gray-300 my-3">
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12 sm:col-span-4 xl:col-span-3">
+                <div class="text-sm font-bold">Личный кабинет</div>
+            </div>
+            <div class="col-span-12 sm:col-span-8 xl:col-span-4">
                 <div class="flex flex-col gap-6">
                     <InputGroup v-model="data.email" :error="data__errors.email[0]" label="Электронная почта" placeholder="test@test.ru" type="email"/>
                     <InputGroup v-model="data.password" :error="data__errors.password[0]" label="Пароль" placeholder="******" type="password"/>

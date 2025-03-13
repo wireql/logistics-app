@@ -123,34 +123,35 @@
 </script>
 
 <template>
-    <div class="mt-6 flex items-center justify-between">
+    <div class="mt-6 flex flex-col sm:flex-row sm:items-center justify-between">
         <div>
             <div class="text-2xl font-bold">Автомобиль</div>
             <div class="text-xs">Добавление нового автомобиля</div>
         </div>
-        <div class="flex items-center gap-[10px]">
+        <div class="flex items-center gap-[10px] mt-2">
             <router-link :to="{'name': 'VehiclesIndex'}" class="text-sm border border-dark-50 py-[5px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
                     <Delete color="black"/>
-                    <div>Отмена</div>
+                    <div class="">Отмена</div>
                 </div>
             </router-link>
-            <button type="button" v-on:click="action()" class="text-sm bg-sky-400 text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+            <button type="button" v-on:click="action()" class="text-sm bg-[#C1E0FF] text-white py-[6px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
                 <div class="flex items-center gap-[10px]">
-                    <Edit color="#FFF"/>
-                    <div>{{ actionLoading ? 'Сохранение...' : 'Сохранить' }}</div>
+                    <Edit color="#357CC5"/>
+                    <div class="text-[#357CC5]">Сохранить</div>
                 </div>
             </button>
         </div>
-     </div>
+    </div>
 
     <hr class="border-gray-300 my-[24px]">
 
-    <div class="mt-6">
-        <div class="grid grid-cols-12 gap-5 pb-10">
-            <div class="col-span-4">
-                <div class="text-base">Основная информация</div>
-                <hr class="border-gray-300 my-3">
+    <div class="mt-6 pb-6">
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12 sm:col-span-4 xl:col-span-3">
+                <div class="text-sm font-bold">Основная информация</div>
+            </div>
+            <div class="col-span-12 sm:col-span-8 xl:col-span-4">
                 <div class="flex flex-col gap-6">
                     <InputGroup v-model="data.brand" :error="data__errors.brand[0]" label="Бренд" placeholder="MAN"/>
                     <InputGroup v-model="data.model" :error="data__errors.model[0]" label="Модель" placeholder="TGX"/>
@@ -169,9 +170,16 @@
                         <p v-if="data__errors.vehicle_category_id !== null" class="text-red-300 text-xs">{{ data__errors.vehicle_category_id[0] }}</p>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="text-base mt-6">Документация</div>
-                <hr class="border-gray-300 my-3">
+        <hr class="border-gray-300 my-[24px]">
+
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12 sm:col-span-4 xl:col-span-3">
+                <div class="text-sm font-bold">Документация</div>
+            </div>
+            <div class="col-span-12 sm:col-span-8 xl:col-span-4">
                 <div class="flex flex-col gap-6">
                     <InputGroup 
                         v-model="data.register_number" 
@@ -186,9 +194,16 @@
                         ref="vinInput"
                         placeholder="JHMCM56557C404453"/>
                 </div>
+            </div>
+        </div>
 
-                <div class="text-base mt-6">Кузов</div>
-                <hr class="border-gray-300 my-3">
+        <hr class="border-gray-300 my-[24px]">
+
+        <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-12 sm:col-span-4 xl:col-span-3">
+                <div class="text-sm font-bold">Кузов</div>
+            </div>
+            <div class="col-span-12 sm:col-span-8 xl:col-span-4">
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col gap-[5px] w-full">
                         <label class="text-sm opacity-[60%]">Тип кузова</label>

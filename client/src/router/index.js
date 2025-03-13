@@ -4,7 +4,7 @@ import RegisterView from '../views/Auth/RegisterView.vue'
 import LoginView from '../views/Auth/LoginView.vue'
 import Dashboard from '@/views/Me/Dashboard.vue'
 import Index from '@/views/Me/Index.vue'
-import TasksIndex from '@/views/Me/Task/TasksIndex.vue'
+import RouteListsIndex from '@/views/Me/RouteLists/RouteListsIndex.vue'
 import EmployeesIndex from '@/views/Me/Employee/EmployeesIndex.vue'
 import EmployeesCreate from '@/views/Me/Employee/EmployeesCreate.vue'
 import EmployeesUpdate from '@/views/Me/Employee/EmployeesUpdate.vue'
@@ -16,7 +16,7 @@ import VehiclesCreate from '@/views/Me/Vehicle/VehiclesCreate.vue'
 import AddressIndex from '@/views/Me/Address/AddressIndex.vue'
 import AddressCreate from '@/views/Me/Address/AddressCreate.vue'
 import AddressUpdate from '@/views/Me/Address/AddressUpdate.vue'
-import TasksCreate from '@/views/Me/Task/TasksCreate.vue'
+import RouteListsCreate from '@/views/Me/RouteLists/RouteListsCreate.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,15 +52,15 @@ const router = createRouter({
 					meta: { requiresAuth: true },
 				},
 				{
-					path: 'tasks',
-					name: 'TasksIndex',
-					component: TasksIndex,
+					path: 'route-lists',
+					name: 'RouteListsIndex',
+					component: RouteListsIndex,
 					meta: { requiresAuth: true },
 				},
 				{
-					path: 'tasks/new',
-					name: 'TasksCreate',
-					component: TasksCreate,
+					path: 'route-lists/new',
+					name: 'RouteListsCreate',
+					component: RouteListsCreate,
 					meta: { requiresAuth: true },
 				},
 				{

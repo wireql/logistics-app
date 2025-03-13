@@ -21,6 +21,16 @@ class VehicleController extends Controller
             $query->where('vehicle_status_id', $request->input('status'));
         }
 
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+    
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('brand', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('model', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('register_number', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
         $item = $query->with(['status', 'category', 'body_type'])->paginate(10);
 
         return response()->json([

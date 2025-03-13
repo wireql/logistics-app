@@ -34,9 +34,9 @@
 
 <template>
     <div class="mt-6 flex items-center justify-between">
-        <div class="text-2xl font-bold">Ваши задачи</div>
+        <div class="text-2xl font-bold">Ваши маршрутные листы</div>
 
-        <router-link :to="{'name': 'TasksCreate'}" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+        <router-link :to="{'name': 'RouteListsCreate'}" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
             Создать задачу
         </router-link>
     </div>

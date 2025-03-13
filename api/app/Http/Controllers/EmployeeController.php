@@ -21,6 +21,17 @@ class EmployeeController extends Controller
             $query->where('user_category_id', $request->input('category'));
         }
 
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+    
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('first_name', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('middle_name', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
         $items = $query->with('category')->paginate(10);
 
         return response()->json([

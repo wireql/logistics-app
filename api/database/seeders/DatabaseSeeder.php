@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AddressCategoriesSeeder::class,
-            TaskPointStatusesSeeder::class,
+            RoutePointStatusesSeeder::class,
             UserCategoriesSeeder::class,
             VehicleStatusesSeeder::class,
             VehicleCategoriesSeeder::class,
             BodyTypesSeeder::class,
-            TaskStatusesSeeder::class
+            RouteListStatusesSeeder::class
         ]);
     }
 }

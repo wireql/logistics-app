@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('address_from_id')->references('id')->on('addresses')->onDelete('RESTRICT');
             $table->foreign('address_to_id')->references('id')->on('addresses')->onDelete('RESTRICT');
             $table->foreign('route_list_id')->references('id')->on('route_lists')->onDelete('RESTRICT');
-            $table->foreign('route_point_status_id')->references('id')->on('route_point_statuses    ')->onDelete('RESTRICT');
+            $table->foreign('route_point_status_id')->references('id')->on('route_point_statuses')->onDelete('RESTRICT');
 
         });
     }

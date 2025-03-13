@@ -9,12 +9,16 @@
     import Edit from '@/components/Icons/edit.vue';
     import Arrow from '@/components/Icons/arrow.vue';
     import Modal from '@/components/UI/Modal.vue';
+import Search from '@/components/Icons/search.vue';
+import router from '@/router';
 
     const response = ref([]);
     const loading = ref(false);
     const loadingDelete = ref(false);
     const showModal = ref(false);
     const userId = ref(null);
+    const findInput = ref('');
+    const findTimeout = ref(null);
 
     const authStore = useAuthStore()
     const route = useRoute();
@@ -61,6 +65,33 @@
         return "/me/vehicles?page=" + (response.value.current_page + 1);
     }
 
+    const getStatusClass = (statusId) => {
+        switch (statusId) {
+            case 1: return 'text-green-600 bg-green-100';
+            case 2: return 'text-blue-600 bg-blue-100';
+            case 3: return 'text-yellow-600 bg-yellow-100';
+            case 4: return 'text-orange-600 bg-orange-100';
+            case 5: return 'text-purple-600 bg-purple-100';
+            case 6: return 'text-red-600 bg-red-100';
+            default: return 'text-gray-600 bg-gray-100';
+        }
+    }
+
+    const onInput = () => {
+        if(findTimeout.value) {
+            clearTimeout(findTimeout.value);
+        }
+
+        findTimeout.value = setTimeout(() => {
+            router.push({
+                query: {
+                    ...route.query,
+                    search: findInput.value,
+                },
+            });
+        }, 1000)
+    }
+
     const fetchVehicles = async () => {
         loading.value = true;
 
@@ -78,19 +109,7 @@
         }
     };
 
-    const getStatusClass = (statusId) => {
-        switch (statusId) {
-            case 1: return 'text-green-600 bg-green-100';
-            case 2: return 'text-blue-600 bg-blue-100';
-            case 3: return 'text-yellow-600 bg-yellow-100';
-            case 4: return 'text-orange-600 bg-orange-100';
-            case 5: return 'text-purple-600 bg-purple-100';
-            case 6: return 'text-red-600 bg-red-100';
-            default: return 'text-gray-600 bg-gray-100';
-        }
-    }
-
-    watch(() => route.query.page, fetchVehicles, { immediate: true });
+    watch(() => route.query, fetchVehicles, { immediate: true });
 </script>
 
 <template>
@@ -112,30 +131,38 @@
         </div>
     </Modal>
 
-    <div class="mt-6 flex items-center justify-between">
+    <div class="mt-6">
         <div class="text-2xl font-bold">Ваши автомобили</div>
-
-        <router-link :to="{'name': 'VehiclesCreate'}" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
-            Добавить автомобиль
-        </router-link>
     </div>
 
     <hr class="border-gray-300 my-[24px]">
 
     <div class="mt-6">
         <div class="flex flex-col gap-3 overflow-x-auto">
-            <div class="flex justify-between">
-                <div class="text-xs opacity-[60%]">1-{{response.per_page}} из {{response.total}} записи</div>
-                <div class="flex items-center gap-3">
-                    <router-link :to="linkPrev()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
-                        <Arrow color="black" class="rotate-180"/>
-                    </router-link>
-                    <div>{{response.current_page}}</div>
-                    <router-link :to="linkTo()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
-                        <Arrow color="black"/>
+            <!-- Действия -->
+            <div class="flex justify-between items-center">
+                <div v-if="loading" class="h-[12px] rounded bg-gray-200 w-32 animate-pulse"></div>
+                <div v-else class="text-xs opacity-[60%]">1-{{response.per_page}} из {{response.total}} записи</div>
+                <div class="flex gap-3">
+                    <div 
+                        class="flex items-center px-[9px] gap-2 border border-gray-300 focus:border-gray-700 bg-dark-100 rounded-[6px]"
+                    >
+                        <Search color="#B0B0B0"/>
+                        <input 
+                            v-model="findInput"
+                            placeholder="Поиск"
+                            class="text-sm focus:outline-0"
+                            @input="onInput"
+                        />
+                    </div>
+                    
+                    <router-link :to="{'name': 'VehiclesCreate'}" class="text-sm bg-dark-999 text-white py-[8px] px-[9px] rounded-[6px] w-auto hover:cursor-pointer">
+                        Добавить автомобиль
                     </router-link>
                 </div>
             </div>
+
+            <!-- Таблица -->
             <table class="table-auto w-full">
                 <thead>
                     <tr>
@@ -199,6 +226,20 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Пагинация -->
+            <div class="flex justify-end">
+                <div v-if="loading" class="h-[24px] rounded bg-gray-200 w-20 animate-pulse"></div>
+                <div v-else class="flex items-center gap-3">
+                    <router-link :to="linkPrev()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
+                        <Arrow color="black" class="rotate-180"/>
+                    </router-link>
+                    <div>{{response.current_page}}</div>
+                    <router-link :to="linkTo()" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
+                        <Arrow color="black"/>
+                    </router-link>
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -58,9 +58,9 @@
                 <div class="flex flex-col">
                     <div class="text-sm mb-[15px] hidden lg:block">Основное</div>
 
-                    <router-link to="/me/tasks" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
+                    <router-link to="/me/route-lists" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Tasks />
-                        <div class="text-sm font-bold hidden lg:block">Задачи</div>
+                        <div class="text-sm font-bold hidden lg:block">Маршрутные листы</div>
                     </router-link>
                     <router-link :to="{'name': 'EmployeesIndex'}" class="flex flex-row items-center gap-[15px] p-2 rounded-[12px] hover:bg-dark-50/70 hover:cursor-pointer">
                         <Employees />

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->decimal('volume');
             $table->timestamps();
 
-            $table->unsignedBigInteger('task_point_id');
-            $table->foreign('task_point_id')->references('id')->on('task_points')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('route_point_id');
+            $table->foreign('route_point_id')->references('id')->on('route_points')->onDelete('RESTRICT');
         });
     }
 
