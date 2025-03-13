@@ -125,7 +125,7 @@
     <hr class="border-gray-300 my-[24px]">
 
     <div class="mt-6">
-        <div class="flex flex-col gap-3 ">
+        <div class="flex flex-col gap-3 overflow-x-auto">
             <!-- Действия -->
             <div class="flex justify-between items-center">
                 <div v-if="loading" class="h-[12px] rounded bg-gray-200 w-32 animate-pulse"></div>
@@ -153,10 +153,10 @@
             <table class="table-auto w-full">
                 <thead>
                     <tr>
-                        <th class="text-xs font-normal py-3 text-left">ФИО</th>
-                        <th class="text-xs font-normal py-3 text-left">Электронная почта</th>
-                        <th class="text-xs font-normal py-3 text-left">Должность</th>
-                        <th class="text-xs font-normal py-3 text-left">Действия</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">ФИО</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">Электронная почта</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">Должность</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -175,10 +175,10 @@
                         </td>
                     </tr>
                     <tr v-else v-for="user in response.data" :key="user.id">
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.last_name + " " + user.first_name + " " + user.middle_name }}</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.email }}</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">{{ user.category.name }}</td>
-                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300">
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">{{ user.last_name + " " + user.first_name + " " + user.middle_name }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">{{ user.email }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">{{ user.category.name }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">
                             <div class="flex gap-2">
                                 <router-link :to="`/me/employees/`+user.id" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">
                                     <Edit color="black" />
