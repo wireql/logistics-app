@@ -1,5 +1,5 @@
 <script setup>
-import { getRouteList } from '@/api/RouteList';
+import { getRouteList, getRouteListDocument } from '@/api/RouteList';
 import Calendar from '@/components/Icons/calendar.vue';
 import Cargo from '@/components/Icons/cargo.vue';
 import CopyActive from '@/components/Icons/copy-active.vue';
@@ -51,6 +51,34 @@ import { useRoute } from 'vue-router';
         return data.value?.description ? data.value.description.replace(/\n/g, '<br>') : '';
     });
 
+    const downloadRouteList = async (id) => {
+        try {
+            const res = await getRouteListDocument(authStore.token, id);
+            
+
+            const blob = new Blob([res.data], {
+                type: res.headers['content-type']
+            });
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+
+            a.href = url;
+            a.download = `route_${id}.docx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error("Ошибка скачивания:", err);
+            notify({
+                title: "Ошибка",
+                text: "Не удалось загрузить файл. Попробуйте позже.",
+                type: 'error'
+            });
+        }
+    }
+ 
     onMounted(async () => {
         loading.value = true;
 
@@ -120,7 +148,7 @@ import { useRoute } from 'vue-router';
                 <Button class="mt-3">Добавить подзадачу</Button>
 
                 <div class="mt-6 flex flex-col gap-3">
-                    
+
                     <div class="p-[15px] rounded-xl border border-gray-300">
                         <div class="flex items-center gap-1">
                             <div class="text-sm">ID:</div>
@@ -199,7 +227,7 @@ import { useRoute } from 'vue-router';
                             <CopyActive v-else color="#797979" size="14" />
                         </div>
                     </div>
-                    <div class="flex items-center gap-1 px-2 py-1 bg-[#E9ECEF] rounded-sm hover:cursor-pointer">
+                    <div class="flex items-center gap-1 px-2 py-1 bg-[#E9ECEF] rounded-sm hover:cursor-pointer" v-on:click="downloadRouteList(data.id)">
                         <Download />
                         <div class="text-xs">Скачать для печати</div>
                     </div>

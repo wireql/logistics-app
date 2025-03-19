@@ -17,6 +17,15 @@ function getRouteList(token, id) {
     });
 }
 
+function getRouteListDocument(token, id) {
+    return http.get('documents/route-lists/'+id, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob'
+    });
+}
+
 function storeRouteList(data, token) {
     return http.post('route-lists', data, {
         headers: {
@@ -46,5 +55,6 @@ export {
     getRouteLists,
     updateRouteList,
     getRouteList,
-    deleteRouteList
+    deleteRouteList,
+    getRouteListDocument
 }

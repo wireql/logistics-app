@@ -71,4 +71,8 @@ class User extends Authenticatable
         return $this->belongsTo(UserCategory::class, 'user_category_id');
     }
 
+    public function company() {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
 }

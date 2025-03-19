@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressCategorieController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BodyTypeController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RouteListController;
 use App\Http\Controllers\RoutePointController;
@@ -32,6 +33,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/body-types', [BodyTypeController::class, 'index']);
     
     Route::get('/address-categories', [AddressCategorieController::class, 'index']);
+
+    Route::get('/documents/route-lists/{routeList}', [DocumentController::class, 'routeListGenerate']);
 
     Route::get('/user', function (Request $request) {
         return $request->user();
