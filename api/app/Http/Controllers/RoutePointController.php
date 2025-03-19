@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoutePoint\RoutePointRequest;
 use App\Http\Requests\TaskPoint\TaskPointRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -11,9 +12,9 @@ class RoutePointController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, $task)
+    public function index(Request $request, $route_list)
     {
-        $item = $request->user()->route_lists()->find($task);
+        $item = $request->user()->route_lists()->find($route_list);
 
         if(!$item) {
             return response()->json([
@@ -22,18 +23,18 @@ class RoutePointController extends Controller
             ], 404);
         }
 
-        $task_points = $item->route_points()->get();
+        $points = $item->route_points()->get();
 
         return response()->json([
             "message" => "Список подзадач успешно получен.",
-            "data" => $task_points
+            "data" => $points
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TaskPointRequest $request, $task)
+    public function store(RoutePointRequest $request, $task)
     {
         $fields = $request->validated();
 

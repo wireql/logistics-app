@@ -67,6 +67,15 @@
 
     }
 
+    const getStatusClass = (statusId) => {
+        switch (statusId) {
+            case 1: return 'text-blue-600 bg-blue-100';
+            case 2: return 'text-green-600 bg-green-100';
+            case 3: return 'text-gray-600 bg-gray-100';
+            default: return 'text-gray-600 bg-gray-100';
+        }
+    }
+
     const onInput = () => {
         if(findTimeout.value) {
             clearTimeout(findTimeout.value);
@@ -159,11 +168,15 @@
                         <th class="text-xs font-normal py-3 text-left px-1">UUID</th>
                         <th class="text-xs font-normal py-3 text-left px-1">Описание</th>
                         <th class="text-xs font-normal py-3 text-left px-1">Плановая дата завершения</th>
+                        <th class="text-xs font-normal py-3 text-left px-1">Статус</th>
                         <th class="text-xs font-normal py-3 text-left px-1">Действия</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-if="loading">
+                        <td class="text-center py-4 text-gray-500">
+                            <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
+                        </td>
                         <td class="text-center py-4 text-gray-500">
                             <div class="h-[12px] rounded bg-gray-200 w-12 animate-pulse"></div>
                         </td>
@@ -183,6 +196,9 @@
                         </td>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1 truncate max-w-56">{{ route_list.description }}</td>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">{{ route_list.plan_delivery }}</td>
+                        <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">
+                            <div class="flex justify-center font-bold p-1 rounded-full" :class="getStatusClass(route_list.status.id)">{{ route_list.status.name }}</div>
+                        </td>
                         <td class="text-xs font-normal py-2 border-t-1 border-gray-300 px-1">
                             <div class="flex gap-2">
                                 <router-link :to="{'name': 'RouteListsUpdate', 'params': {'id': route_list.id}}" class="hover:cursor-pointer hover:bg-dark-50/70 rounded-[3px] px-1.5 py-1.5">

@@ -23,8 +23,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('employees', EmployeeController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('vehicles', VehicleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('route-lists', RouteListController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
-    Route::prefix('route-lists/{route-list}')->group(function () {
-        Route::resource('route-point', RoutePointController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::prefix('route-lists/{routeList}')->group(function () {
+        Route::resource('route-points', RoutePointController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     });
 
     Route::get('/vehicle-statuses', [VehicleStatusController::class, 'index']);

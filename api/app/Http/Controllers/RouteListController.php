@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RouteList\RouteListRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class RouteListController extends Controller
@@ -25,7 +24,7 @@ class RouteListController extends Controller
             });
         }
 
-        $items = $query->paginate(10);
+        $items = $query->with('status')->paginate(10);
 
         return response()->json([
             "message" => "Список маршрутных листов успешно получен.",
@@ -82,7 +81,7 @@ class RouteListController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $item = $request->user()->route_lists()->find($id);
+        $item = $request->user()->route_lists()->with(['vehicle', 'vehicle.category', 'vehicle.body_type', 'vehicle.status', 'driver'])->find($id);
         
         if(!$item) {
             return response()->json([

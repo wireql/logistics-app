@@ -33,4 +33,16 @@ class RouteList extends Model
     public function route_points() {
         return $this->hasMany(RoutePoint::class, 'route_list_id', 'id');
     }
+
+    public function vehicle() {
+        return $this->belongsTo(Vehicle::class, 'vehicle_id', 'id');
+    }
+
+    public function driver() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function status() {
+        return $this->belongsTo(RouteListStatus::class, 'route_list_status_id', 'id');
+    }
 }

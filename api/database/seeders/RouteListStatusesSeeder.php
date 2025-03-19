@@ -15,13 +15,13 @@ class RouteListStatusesSeeder extends Seeder
     {
         DB::table('route_list_statuses')->insert([
             [
-                "name" => "Новая"
+                "name" => "Новый"
             ],
             [
-                "name" => "Активная"
+                "name" => "Активный"
             ],
             [
-                "name" => "Архивная"
+                "name" => "Архивный"
             ],
         ]);
     }
