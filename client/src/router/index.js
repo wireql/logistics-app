@@ -19,6 +19,7 @@ import AddressUpdate from '@/views/Me/Address/AddressUpdate.vue'
 import RouteListsCreate from '@/views/Me/RouteLists/RouteListsCreate.vue'
 import RouteListsUpdate from '@/views/Me/RouteLists/RouteListsUpdate.vue'
 import RouteList from '@/views/Me/RouteLists/RouteList.vue'
+import RoutePointsCreate from '@/views/Me/RoutePoints/RoutePointsCreate.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +70,12 @@ const router = createRouter({
 					path: 'route-lists/:id',
 					name: 'RouteListsUpdate',
 					component: RouteList,
+					meta: { requiresAuth: true },
+				},
+				{
+					path: 'route-lists/:id/route-points/new',
+					name: 'RoutePointsCreate',
+					component: RoutePointsCreate,
 					meta: { requiresAuth: true },
 				},
 				{

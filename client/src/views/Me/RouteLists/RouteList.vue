@@ -1,5 +1,6 @@
 <script setup>
 import { getRouteList, getRouteListDocument } from '@/api/RouteList';
+import { getRoutePoints } from '@/api/RoutePoint';
 import Calendar from '@/components/Icons/calendar.vue';
 import Cargo from '@/components/Icons/cargo.vue';
 import CopyActive from '@/components/Icons/copy-active.vue';
@@ -26,6 +27,7 @@ import { useRoute } from 'vue-router';
     const route = useRoute();
     const routeListId = route.params.id
     const data = ref([]);
+    const routePoints = ref([]);
 
     const authStore = useAuthStore();
 
@@ -70,7 +72,6 @@ import { useRoute } from 'vue-router';
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         } catch (err) {
-            console.error("Ошибка скачивания:", err);
             notify({
                 title: "Ошибка",
                 text: "Не удалось загрузить файл. Попробуйте позже.",
@@ -83,11 +84,13 @@ import { useRoute } from 'vue-router';
         loading.value = true;
 
         try {
-            const [routeListRes] = await Promise.all([
-                getRouteList(authStore.token, routeListId)
-            ])
+            const [routeListRes, routePointsRes] = await Promise.all([
+                getRouteList(authStore.token, routeListId),
+                getRoutePoints(authStore.token, routeListId, null),
+            ]);
 
             data.value = routeListRes.data.data;
+            routePoints.value = routePointsRes.data.data;
         } catch (err) {
             notify({
                 title: "Ошибка",
@@ -145,14 +148,17 @@ import { useRoute } from 'vue-router';
                     />
                 </div>
 
-                <Button class="mt-3">Добавить подзадачу</Button>
+                <router-link :to="{'name': 'RoutePointsCreate'}">
+                    <Button class="mt-3">Добавить подзадачу</Button>
+                </router-link>
 
                 <div class="mt-6 flex flex-col gap-3">
 
-                    <div class="p-[15px] rounded-xl border border-gray-300">
+                    <div v-if="loading" class="h-[50px] rounded bg-gray-200 w-full animate-pulse"></div>
+                    <div v-else v-for="routePoint in routePoints" :key="routePoint.id" class="p-[15px] rounded-xl border border-gray-300">
                         <div class="flex items-center gap-1">
                             <div class="text-sm">ID:</div>
-                            <div class="text-sm font-bold">SDERJ342SQW</div>
+                            <div class="text-sm font-bold">{{routePoint.id}}</div>
                         </div>
                         <hr class="border-gray-300 my-[12px]">
                         <div class="flex flex-col gap-3">
@@ -163,7 +169,7 @@ import { useRoute } from 'vue-router';
                                 </div>
                                 <div class="flex items-center gap-1">
                                     <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                                    <div class="text-xs">В доставке</div>
+                                    <div class="text-xs">{{routePoint.status.name}}</div>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between">
@@ -172,7 +178,7 @@ import { useRoute } from 'vue-router';
                                     <div class="text-xs">Плановая дата</div>
                                 </div>
                                 <div class="flex items-center gap-1">
-                                    <div class="text-xs">07/03/2025</div>
+                                    <div class="text-xs">{{routePoint.plan_delivery}}</div>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between">
@@ -202,8 +208,8 @@ import { useRoute } from 'vue-router';
                                     <UserBlock />
                                 </div>
                                 <div>
-                                    <div class="text-xs">Ростов-на-Дону, ул. Малиновского, д. 251, кв. 145</div>
-                                    <div class="text-xs text-gray-400">Магазин</div>
+                                    <div class="text-xs">{{routePoint.address_to.city + " ул." + routePoint.address_to.street + " д." + routePoint.address_to.building}}</div>
+                                    <div class="text-xs text-gray-400">{{routePoint.address_to.category.name}}</div>
                                 </div>
                             </div>
                             <div class="p-2 bg-[#E9ECEF] rounded-full hover:cursor-pointer w-max">

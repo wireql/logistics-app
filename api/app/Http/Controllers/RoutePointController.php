@@ -23,7 +23,7 @@ class RoutePointController extends Controller
             ], 404);
         }
 
-        $points = $item->route_points()->get();
+        $points = $item->route_points()->with(['status', 'addressFrom', 'addressTo', 'addressFrom.category', 'addressTo.category'])->get();
 
         return response()->json([
             "message" => "Список подзадач успешно получен.",

@@ -13,4 +13,16 @@ class RoutePoint extends Model
         "route_list_id",
         "route_point_status_id",
     ];
+
+    public function status() {
+        return $this->belongsTo(RoutePointStatus::class, 'route_point_status_id');
+    }
+
+    public function addressFrom() {
+        return $this->belongsTo(Address::class, 'address_from_id');
+    }
+
+    public function addressTo() {
+        return $this->belongsTo(Address::class, 'address_to_id');
+    }
 }
