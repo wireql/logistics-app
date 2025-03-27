@@ -25,4 +25,8 @@ class RoutePoint extends Model
     public function addressTo() {
         return $this->belongsTo(Address::class, 'address_to_id');
     }
+
+    public function cargos() {
+        return $this->hasMany(Cargo::class, 'route_point_id', 'id');
+    }
 }

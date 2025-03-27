@@ -12,13 +12,11 @@ class RouteListController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
-
-        $query = $user->route_lists();
+        $query = $request->user()->route_lists();
 
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
-    
+
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('id', 'like', '%' . $searchTerm . '%');
             });
@@ -39,10 +37,10 @@ class RouteListController extends Controller
     {
         $fields = $request->validated();
 
-        if($request->has('vehicle_id')) {
+        if ($request->has('vehicle_id')) {
             $vehicle = $request->user()->vehicles()->find($fields['vehicle_id']);
 
-            if(!$vehicle) {
+            if (!$vehicle) {
                 return response()->json([
                     "message" => "Автомобиль не найден.",
                     "data" => []
@@ -50,17 +48,17 @@ class RouteListController extends Controller
             }
         }
 
-        if($request->has('user_id')) {
+        if ($request->has('user_id')) {
             $user = $request->user()->employees()->find($fields['user_id']);
 
-            if(!$user) {
+            if (!$user) {
                 return response()->json([
                     "message" => "Пользователь не найден.",
                     "data" => []
                 ], 404);
             }
 
-            if($user->user_category_id !== 4) {
+            if ($user->user_category_id !== 4) {
                 return response()->json([
                     "message" => "Водителем может быть пользователь с категорией Водитель.",
                     "data" => []
@@ -82,14 +80,14 @@ class RouteListController extends Controller
     public function show(Request $request, string $id)
     {
         $item = $request->user()->route_lists()->with(['vehicle', 'vehicle.category', 'vehicle.body_type', 'vehicle.status', 'driver'])->find($id);
-        
-        if(!$item) {
+
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном маршрутном листе не найдена",
                 "data" => null
             ], 404);
         }
-        
+
         return response()->json([
             "message" => "Информация о маршрутном листе успешно получена",
             "data" => $item
@@ -102,8 +100,8 @@ class RouteListController extends Controller
     public function update(RouteListRequest $request, string $id)
     {
         $item = $request->user()->route_lists()->find($id);
-        
-        if(!$item) {
+
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном маршрутном листе не найдена",
                 "data" => null
@@ -112,10 +110,10 @@ class RouteListController extends Controller
 
         $fields = $request->validated();
 
-        if($request->has('vehicle_id')) {
+        if ($request->has('vehicle_id')) {
             $vehicle = $request->user()->vehicles()->find($fields['vehicle_id']);
 
-            if(!$vehicle) {
+            if (!$vehicle) {
                 return response()->json([
                     "message" => "Автомобиль не найден.",
                     "data" => []
@@ -123,17 +121,17 @@ class RouteListController extends Controller
             }
         }
 
-        if($request->has('user_id')) {
+        if ($request->has('user_id')) {
             $user = $request->user()->employees()->find($fields['user_id']);
 
-            if(!$user) {
+            if (!$user) {
                 return response()->json([
                     "message" => "Пользователь не найден.",
                     "data" => []
                 ], 404);
             }
 
-            if($user->user_category_id !== 4) {
+            if ($user->user_category_id !== 4) {
                 return response()->json([
                     "message" => "Водителем может быть пользователь с категорией Водитель.",
                     "data" => []
@@ -156,7 +154,7 @@ class RouteListController extends Controller
     {
         $item = $request->user()->route_lists()->find($id);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном маршрутном листе не найдена",
                 "data" => null

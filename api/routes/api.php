@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressCategorieController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BodyTypeController;
+use App\Http\Controllers\CargoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RouteListController;
@@ -26,6 +27,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('route-lists', RouteListController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::prefix('route-lists/{routeList}')->group(function () {
         Route::resource('route-points', RoutePointController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    });
+    Route::prefix('route-lists/{routeList}/route-points/{routePoint}')->group(function () {
+        Route::resource('cargos', CargoController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     });
 
     Route::get('/vehicle-statuses', [VehicleStatusController::class, 'index']);

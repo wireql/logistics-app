@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Factories\AddressFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +21,11 @@ class DatabaseSeeder extends Seeder
             VehicleStatusesSeeder::class,
             VehicleCategoriesSeeder::class,
             BodyTypesSeeder::class,
-            RouteListStatusesSeeder::class
+            RouteListStatusesSeeder::class,
+            CompanySeeder::class,
+            UserSeeder::class,
+            AddressSeeder::class,
+            VehicleSeeder::class
         ]);
     }
 }

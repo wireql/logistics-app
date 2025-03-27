@@ -11,6 +11,7 @@ class Cargo extends Model
         'barcode',
         'description',
         'volume',
-        'task_point_id'
+        'weight',
+        'route_point_id'
     ];
 }

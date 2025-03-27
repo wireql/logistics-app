@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'country',
         'region',
@@ -19,7 +22,8 @@ class Address extends Model
         'company_id'
     ];
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(AddressCategories::class, 'address_category_id');
     }
 }

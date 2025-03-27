@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicle extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'brand',
         'model',
@@ -20,15 +23,18 @@ class Vehicle extends Model
         'company_id',
     ];
 
-    public function status() {
+    public function status()
+    {
         return $this->belongsTo(VehicleStatus::class, 'vehicle_status_id');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(VehicleCategorie::class, 'vehicle_category_id');
     }
 
-    public function body_type() {
+    public function body_type()
+    {
         return $this->belongsTo(BodyType::class, 'body_type_id');
     }
 }

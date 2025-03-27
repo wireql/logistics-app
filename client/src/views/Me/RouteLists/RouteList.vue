@@ -1,28 +1,27 @@
 <script setup>
-import { getRouteList, getRouteListDocument } from '@/api/RouteList';
-import { getRoutePoints } from '@/api/RoutePoint';
-import Calendar from '@/components/Icons/calendar.vue';
-import Cargo from '@/components/Icons/cargo.vue';
-import CopyActive from '@/components/Icons/copy-active.vue';
-import Copy from '@/components/Icons/copy.vue';
-import Delete from '@/components/Icons/delete.vue';
-import Download from '@/components/Icons/download.vue';
-import Driver from '@/components/Icons/driver.vue';
-import Edit from '@/components/Icons/edit.vue';
-import File from '@/components/Icons/file.vue';
-import Flag from '@/components/Icons/flag.vue';
-import InfoBlock from '@/components/Icons/info-block.vue';
-import Search from '@/components/Icons/search.vue';
-import Truck from '@/components/Icons/truck.vue';
-import UserBlock from '@/components/Icons/user-block.vue';
-import Button from '@/components/UI/Button.vue';
-import { useAuthStore } from '@/stores/auth';
-import { notify } from '@kyvg/vue3-notification';
-import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+    import { getRouteList, getRouteListDocument } from '@/api/RouteList';
+    import { getRoutePoints } from '@/api/RoutePoint';
+    import Calendar from '@/components/Icons/calendar.vue';
+    import Cargo from '@/components/Icons/cargo.vue';
+    import CopyActive from '@/components/Icons/copy-active.vue';
+    import Copy from '@/components/Icons/copy.vue';
+    import Delete from '@/components/Icons/delete.vue';
+    import Download from '@/components/Icons/download.vue';
+    import Driver from '@/components/Icons/driver.vue';
+    import Edit from '@/components/Icons/edit.vue';
+    import File from '@/components/Icons/file.vue';
+    import Flag from '@/components/Icons/flag.vue';
+    import InfoBlock from '@/components/Icons/info-block.vue';
+    import Search from '@/components/Icons/search.vue';
+    import Truck from '@/components/Icons/truck.vue';
+    import UserBlock from '@/components/Icons/user-block.vue';
+    import Button from '@/components/UI/Button.vue';
+    import { useAuthStore } from '@/stores/auth';
+    import { notify } from '@kyvg/vue3-notification';
+    import { computed, onMounted, ref } from 'vue';
+    import { useRoute } from 'vue-router';
 
     const copy = ref(false);
-    const findInput = ref('');
     const loading = ref(false);
     const route = useRoute();
     const routeListId = route.params.id
@@ -136,20 +135,8 @@ import { useRoute } from 'vue-router';
     <div class="mt-6 pb-6">
         <div class="grid grid-cols-12 gap-5">
             <div class="col-span-4">
-                <div 
-                    class="flex items-center px-[9px] py-[5px] gap-2 border border-gray-300 focus:border-gray-700 bg-dark-100 rounded-[6px]"
-                >
-                    <Search color="#B0B0B0"/>
-                    <input 
-                        v-model="findInput"
-                        placeholder="Поиск"
-                        class="text-sm focus:outline-0"
-                        @input="onInput"
-                    />
-                </div>
-
                 <router-link :to="{'name': 'RoutePointsCreate'}">
-                    <Button class="mt-3">Добавить подзадачу</Button>
+                    <Button>Добавить подзадачу</Button>
                 </router-link>
 
                 <div class="mt-6 flex flex-col gap-3">
@@ -190,19 +177,9 @@ import { useRoute } from 'vue-router';
                                     <div class="text-xs underline hover:cursor-pointer">Картошка</div>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <File />
-                                    <div class="text-xs">Накладная</div>
-                                </div>
-                                <div class="flex items-center gap-1 px-2 py-1 bg-[#E9ECEF] rounded-sm hover:cursor-pointer">
-                                    <Download />
-                                    <div class="text-xs">Скачать</div>
-                                </div>
-                            </div>
                         </div>
                         <hr class="border-gray-300 my-[12px]">
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center justify-between">
                             <div class="flex gap-2 items-center">
                                 <div class="p-2 bg-[#C1E0FF] w-max rounded-sm">
                                     <UserBlock />

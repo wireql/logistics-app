@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
- 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -51,28 +51,33 @@ class User extends Authenticatable
         ];
     }
 
-    public function addresses() {
+    public function addresses()
+    {
         return $this->hasMany(Address::class, 'company_id', 'company_id');
     }
 
-    public function employees() {
+    public function employees()
+    {
         return $this->hasMany(User::class, 'company_id', 'company_id');
     }
 
-    public function vehicles() {
+    public function vehicles()
+    {
         return $this->hasMany(Vehicle::class, 'company_id', 'company_id');
     }
 
-    public function route_lists() {
+    public function route_lists()
+    {
         return $this->hasMany(RouteList::class, 'company_id', 'company_id');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(UserCategory::class, 'user_category_id');
     }
 
-    public function company() {
+    public function company()
+    {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
-
 }
