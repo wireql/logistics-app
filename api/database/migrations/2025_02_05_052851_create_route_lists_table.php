@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('route_lists', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->date('plan_delivery');
+            $table->timestamp('delivery_date');
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('vehicle_id');

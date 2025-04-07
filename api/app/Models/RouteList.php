@@ -11,7 +11,7 @@ class RouteList extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'plan_delivery',
+        'delivery_date',
         'description',
         'vehicle_id',
         'user_id',
@@ -20,9 +20,10 @@ class RouteList extends Model
         'ended_at',
     ];
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
-        
+
         static::creating(function ($model) {
             if (!$model->id) {
                 $model->id = (string) Str::uuid();
@@ -30,19 +31,23 @@ class RouteList extends Model
         });
     }
 
-    public function route_points() {
+    public function route_points()
+    {
         return $this->hasMany(RoutePoint::class, 'route_list_id', 'id');
     }
 
-    public function vehicle() {
+    public function vehicle()
+    {
         return $this->belongsTo(Vehicle::class, 'vehicle_id', 'id');
     }
 
-    public function driver() {
+    public function driver()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function status() {
+    public function status()
+    {
         return $this->belongsTo(RouteListStatus::class, 'route_list_status_id', 'id');
     }
 }

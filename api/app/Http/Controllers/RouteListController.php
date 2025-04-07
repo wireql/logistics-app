@@ -3,26 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RouteList\RouteListRequest;
+use App\Services\RouteListService;
 use Illuminate\Http\Request;
 
 class RouteListController extends Controller
 {
+    protected $routeListService;
+
+    public function __construct(RouteListService $routeListService)
+    {
+        $this->routeListService = $routeListService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = $request->user()->route_lists();
-
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
-
-            $query->where(function ($q) use ($searchTerm) {
-                $q->where('id', 'like', '%' . $searchTerm . '%');
-            });
-        }
-
-        $items = $query->with('status')->paginate(10);
+        $items = $this->routeListService->getAllRouteLists($request);
 
         return response()->json([
             "message" => "Список маршрутных листов успешно получен.",
@@ -35,43 +33,21 @@ class RouteListController extends Controller
      */
     public function store(RouteListRequest $request)
     {
-        $fields = $request->validated();
+        try {
+            $fields = $request->validated();
 
-        if ($request->has('vehicle_id')) {
-            $vehicle = $request->user()->vehicles()->find($fields['vehicle_id']);
+            $item = $this->routeListService->storeRouteList($request, $fields);
 
-            if (!$vehicle) {
-                return response()->json([
-                    "message" => "Автомобиль не найден.",
-                    "data" => []
-                ], 404);
-            }
+            return response()->json([
+                "message" => "Маршрутный лист успешно добавлен.",
+                "data" => $item
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => $th->getMessage(),
+                "data" => []
+            ], 400);
         }
-
-        if ($request->has('user_id')) {
-            $user = $request->user()->employees()->find($fields['user_id']);
-
-            if (!$user) {
-                return response()->json([
-                    "message" => "Пользователь не найден.",
-                    "data" => []
-                ], 404);
-            }
-
-            if ($user->user_category_id !== 4) {
-                return response()->json([
-                    "message" => "Водителем может быть пользователь с категорией Водитель.",
-                    "data" => []
-                ], 404);
-            }
-        }
-
-        $item = $request->user()->route_lists()->create($fields);
-
-        return response()->json([
-            "message" => "Маршрутный лист успешно добавлен.",
-            "data" => $item
-        ], 201);
     }
 
     /**
@@ -79,19 +55,19 @@ class RouteListController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $item = $request->user()->route_lists()->with(['vehicle', 'vehicle.category', 'vehicle.body_type', 'vehicle.status', 'driver'])->find($id);
+        try {
+            $item = $this->routeListService->showRouteList($request, $id);
 
-        if (!$item) {
             return response()->json([
-                "message" => "Информация о данном маршрутном листе не найдена",
-                "data" => null
-            ], 404);
+                "message" => "Информация о маршрутном листе успешно получена",
+                "data" => $item
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => $th->getMessage(),
+                "data" => []
+            ], 400);
         }
-
-        return response()->json([
-            "message" => "Информация о маршрутном листе успешно получена",
-            "data" => $item
-        ]);
     }
 
     /**
@@ -99,52 +75,19 @@ class RouteListController extends Controller
      */
     public function update(RouteListRequest $request, string $id)
     {
-        $item = $request->user()->route_lists()->find($id);
+        try {
+            $item = $this->routeListService->updateRouteList($request, $id);
 
-        if (!$item) {
             return response()->json([
-                "message" => "Информация о данном маршрутном листе не найдена",
-                "data" => null
-            ], 404);
+                "message" => "Информация о маршрутном листе успешно обновлена",
+                "data" => $item->fresh()
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => $th->getMessage(),
+                "data" => []
+            ], 400);
         }
-
-        $fields = $request->validated();
-
-        if ($request->has('vehicle_id')) {
-            $vehicle = $request->user()->vehicles()->find($fields['vehicle_id']);
-
-            if (!$vehicle) {
-                return response()->json([
-                    "message" => "Автомобиль не найден.",
-                    "data" => []
-                ], 404);
-            }
-        }
-
-        if ($request->has('user_id')) {
-            $user = $request->user()->employees()->find($fields['user_id']);
-
-            if (!$user) {
-                return response()->json([
-                    "message" => "Пользователь не найден.",
-                    "data" => []
-                ], 404);
-            }
-
-            if ($user->user_category_id !== 4) {
-                return response()->json([
-                    "message" => "Водителем может быть пользователь с категорией Водитель.",
-                    "data" => []
-                ], 404);
-            }
-        }
-
-        $item->update($fields);
-
-        return response()->json([
-            "message" => "Информация о маршрутном листе успешно обновлена",
-            "data" => $item
-        ]);
     }
 
     /**
@@ -152,20 +95,18 @@ class RouteListController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $item = $request->user()->route_lists()->find($id);
+        try {
+            $item = $this->routeListService->desctroyRouteList($request, $id);
 
-        if (!$item) {
             return response()->json([
-                "message" => "Информация о данном маршрутном листе не найдена",
-                "data" => null
-            ], 404);
+                "message" => "Маршрутный лист успешно удален",
+                "data" => $item
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => $th->getMessage(),
+                "data" => []
+            ], 400);
         }
-
-        $item->delete();
-
-        return response()->json([
-            "message" => "Маршрутный лист успешно удален",
-            "data" => []
-        ]);
     }
 }
