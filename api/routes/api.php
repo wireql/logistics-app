@@ -20,7 +20,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('user.login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('user.logout');
-    
+
     Route::resource('address', AddressController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('employees', EmployeeController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('vehicles', VehicleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/vehicle-statuses', [VehicleStatusController::class, 'index']);
     Route::get('/vehicle-categories', [VehicleCetegorieController::class, 'index']);
     Route::get('/body-types', [BodyTypeController::class, 'index']);
-    
+
     Route::get('/address-categories', [AddressCategorieController::class, 'index']);
 
     Route::get('/documents/route-lists/{routeList}', [DocumentController::class, 'routeListGenerate']);

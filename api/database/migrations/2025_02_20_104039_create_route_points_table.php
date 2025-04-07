@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('address_from_id');
             $table->unsignedBigInteger('address_to_id');
-            $table->date('plan_delivery');
+            $table->date('delivery_date');
             $table->uuid('route_list_id');
             $table->unsignedBigInteger('route_point_status_id')->default(1);
             $table->timestamps();
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->foreign('address_to_id')->references('id')->on('addresses')->onDelete('RESTRICT');
             $table->foreign('route_list_id')->references('id')->on('route_lists')->onDelete('RESTRICT');
             $table->foreign('route_point_status_id')->references('id')->on('route_point_statuses')->onDelete('RESTRICT');
-
         });
     }
 

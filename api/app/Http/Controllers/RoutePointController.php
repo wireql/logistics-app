@@ -16,7 +16,7 @@ class RoutePointController extends Controller
     {
         $item = $request->user()->route_lists()->find($route_list);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Маршрутный лист не найден.",
                 "data" => []
@@ -40,7 +40,7 @@ class RoutePointController extends Controller
 
         $item = $request->user()->route_lists()->find($task);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Маршрутный лист не найден.",
                 "data" => []
@@ -62,7 +62,7 @@ class RoutePointController extends Controller
     {
         $item = $request->user()->route_lists()->find($task);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Маршрутный лист не найден.",
                 "data" => []
@@ -70,14 +70,14 @@ class RoutePointController extends Controller
         }
 
         $task_point = $item->route_points()->find($id);
-        
-        if(!$task_point) {
+
+        if (!$task_point) {
             return response()->json([
                 "message" => "Информация о данной подзадаче не найдена",
                 "data" => null
             ], 404);
         }
-        
+
         return response()->json([
             "message" => "Информация о подзадаче успешно получена",
             "data" => $task_point
