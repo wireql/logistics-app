@@ -12,6 +12,7 @@ import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
+import locationIcon from '@/assets/location.svg';
 
 const map = ref(null);
 const mapContainer = ref(null);
@@ -39,7 +40,7 @@ const handleMap = (evt) => {
     marker.setStyle(
         new Style({
             image: new Icon({
-                src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+                src: locationIcon,
                 scale: 0.8
             })
         })
@@ -91,7 +92,7 @@ const zoomToAddress = (coordinates, zoomLevel = 18) => {
     marker.setStyle(
         new Style({
             image: new Icon({
-                src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+                src: locationIcon,
                 scale: 0.8
             })
         })
