@@ -12,7 +12,7 @@ import router from '@/router';
 import VueSelect from 'vue3-select-component';
 import Button from '@/components/UI/Button.vue';
 
-const fields = ['address_from_id', 'address_to_id', 'plan_delivery'];
+const fields = ['address_from_id', 'address_to_id', 'delivery_date'];
 const data = ref(Object.fromEntries(fields.map((field) => [field, null])));
 const data__errors = ref(
     Object.fromEntries(fields.map((field) => [field, []]))
@@ -196,10 +196,10 @@ onMounted(async () => {
                         </p>
                     </div>
                     <InputGroup
-                        v-model="data.plan_delivery"
-                        :error="data__errors.plan_delivery[0]"
+                        v-model="data.delivery_date"
+                        :error="data__errors.delivery_date[0]"
                         label="Плановая дата завершения"
-                        type="date"
+                        type="datetime-local"
                     />
                 </div>
             </div>

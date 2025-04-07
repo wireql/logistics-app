@@ -22,10 +22,19 @@ class RouteListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plan_delivery' => ['required', 'date'],
+            'delivery_date' => ['required', 'date', 'date_format:Y-m-d H:i:s', 'after:now'],
             'description' => ['max:255'],
             'vehicle_id' => ['required', 'exists:vehicles,id'],
             'user_id' => ['required', 'exists:users,id'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('delivery_date')) {
+            $this->merge([
+                'delivery_date' => \Carbon\Carbon::parse($this->delivery_date)->format('Y-m-d H:i:s'),
+            ]);
+        }
     }
 }

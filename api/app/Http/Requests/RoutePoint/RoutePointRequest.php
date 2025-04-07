@@ -24,7 +24,16 @@ class RoutePointRequest extends FormRequest
         return [
             'address_from_id' => ['required', 'exists:addresses,id'],
             'address_to_id' => ['required', 'exists:addresses,id'],
-            'plan_delivery' => ['required', 'date'],
+            'delivery_date' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('delivery_date')) {
+            $this->merge([
+                'delivery_date' => \Carbon\Carbon::parse($this->delivery_date)->format('Y-m-d H:i:s'),
+            ]);
+        }
     }
 }
