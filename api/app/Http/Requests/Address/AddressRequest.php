@@ -28,8 +28,8 @@ class AddressRequest extends FormRequest
             'street' => ['required', 'string', 'max:100'],
             'building' => ['required', 'string', 'max:20'],
             'flat' => ['nullable', 'string', 'max:20'],
-            'latitude' => ['nullable', 'numeric'],
-            'longitude' => ['nullable', 'numeric'],
+            'latitude' => ['required', 'nullable', 'numeric'],
+            'longitude' => ['required', 'nullable', 'numeric'],
             'address_category_id' => ['required', 'exists:address_categories,id'],
         ];
     }
@@ -65,10 +65,11 @@ class AddressRequest extends FormRequest
 
             'latitude.numeric' => 'Широта должна быть числом.',
             'longitude.numeric' => 'Долгота должна быть числом.',
+            'latitude.required' => 'Широта обязателена для заполнения.',
+            'longitude.required' => 'Долгота обязателена для заполнения.',
 
             'address_category_id.required' => 'Категория адреса обязательна.',
             'address_category_id.exists' => 'Выбранная категория адреса недействительна.',
         ];
     }
-
 }

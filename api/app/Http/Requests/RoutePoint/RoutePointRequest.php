@@ -22,9 +22,10 @@ class RoutePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address_from_id' => ['required', 'exists:addresses,id'],
-            'address_to_id' => ['required', 'exists:addresses,id'],
-            'delivery_date' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
+            'address_id' => ['required', 'exists:addresses,id'],
+            'delivery_date' => ['date', 'date_format:Y-m-d H:i:s'],
+            'route_point_status_id' => ['exists:route_point_statuses,id'],
+            'route_point_category_id' => ['required', 'exists:route_point_categories,id'],
         ];
     }
 

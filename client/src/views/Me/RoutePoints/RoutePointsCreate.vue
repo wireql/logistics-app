@@ -1,6 +1,6 @@
 <script setup>
 import { getAddresses } from '@/api/Address';
-import { storeRoutePoint } from '@/api/RoutePoint';
+import { getRoutePointCategories, storeRoutePoint } from '@/api/RoutePoint';
 import Delete from '@/components/Icons/delete.vue';
 import Edit from '@/components/Icons/edit.vue';
 import InputGroup from '@/components/UI/InputGroup.vue';
@@ -12,12 +12,13 @@ import router from '@/router';
 import VueSelect from 'vue3-select-component';
 import Button from '@/components/UI/Button.vue';
 
-const fields = ['address_from_id', 'address_to_id', 'delivery_date'];
+const fields = ['address_id', 'route_point_category_id'];
 const data = ref(Object.fromEntries(fields.map((field) => [field, null])));
 const data__errors = ref(
     Object.fromEntries(fields.map((field) => [field, []]))
 );
 const addresses = ref([]);
+const routePointCategories = ref([]);
 const loading = ref(false);
 const actionLoading = ref(false);
 const authStore = useAuthStore();
@@ -75,9 +76,15 @@ onMounted(async () => {
     loading.value = true;
 
     try {
-        const addressesRes = await getAddresses(authStore.token);
+        const [addressesRes, pointCategoriesRes] = await Promise.all([
+            getAddresses(authStore.token, {
+                paginate: false
+            }),
+            getRoutePointCategories(authStore.token)
+        ]);
 
-        addresses.value = addressesRes.data.data;
+        addresses.value = addressesRes.data;
+        routePointCategories.value = pointCategoriesRes.data;
     } catch (err) {
         notify({
             title: 'Ошибка',
@@ -133,42 +140,31 @@ onMounted(async () => {
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col gap-[5px] w-full">
                         <label class="text-sm opacity-[60%]"
-                            >Адрес погрузки</label
+                            >Категория подзадачи</label
                         >
-                        <VueSelect
-                            v-model="data.address_from_id"
-                            :options="
-                                addresses?.data?.map((address) => ({
-                                    label: `${address.region} г.${address.city} ул.${address.street} д.${address.building} кв.${address.flat}`,
-                                    value: address.id
-                                })) || []
-                            "
-                            placeholder="Выбрать адрес"
-                            class="text-sm rounded-[6px]"
+                        <select
+                            v-model="data.route_point_category_id"
+                            class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]"
                         >
-                            <template #menu-header>
-                                <div class="p-2">
-                                    <router-link
-                                        :to="{ name: 'AddressCreate' }"
-                                    >
-                                        <Button>Добавить адрес</Button>
-                                    </router-link>
-                                </div>
-                            </template>
-                        </VueSelect>
+                            <option
+                                v-for="category in routePointCategories.data"
+                                :key="category.id"
+                                :value="category.id"
+                            >
+                                {{ category.name }}
+                            </option>
+                        </select>
                         <p
-                            v-if="data__errors.address_from_id !== null"
+                            v-if="data__errors.route_point_category_id !== null"
                             class="text-red-300 text-xs"
                         >
-                            {{ data__errors.address_from_id[0] }}
+                            {{ data__errors.route_point_category_id[0] }}
                         </p>
                     </div>
                     <div class="flex flex-col gap-[5px] w-full">
-                        <label class="text-sm opacity-[60%]"
-                            >Адрес доставки</label
-                        >
+                        <label class="text-sm opacity-[60%]">Адрес</label>
                         <VueSelect
-                            v-model="data.address_to_id"
+                            v-model="data.address_id"
                             :options="
                                 addresses?.data?.map((address) => ({
                                     label: `${address.region} г.${address.city} ул.${address.street} д.${address.building} кв.${address.flat}`,
@@ -189,18 +185,12 @@ onMounted(async () => {
                             </template>
                         </VueSelect>
                         <p
-                            v-if="data__errors.address_to_id !== null"
+                            v-if="data__errors.address_id !== null"
                             class="text-red-300 text-xs"
                         >
-                            {{ data__errors.address_to_id[0] }}
+                            {{ data__errors.address_id[0] }}
                         </p>
                     </div>
-                    <InputGroup
-                        v-model="data.delivery_date"
-                        :error="data__errors.delivery_date[0]"
-                        label="Плановая дата завершения"
-                        type="datetime-local"
-                    />
                 </div>
             </div>
         </div>

@@ -20,17 +20,12 @@ const mapData = ref({
     search: ''
 });
 const nominatimData = ref([]);
-const emit = defineEmits(['address-data', 'address-marker-coords']);
+const emit = defineEmits(['address-data']);
 
-const handleMap = (evt) => {
+const handleMap = async (evt) => {
     const coords = toLonLat(evt.coordinate);
     const lon = coords[0].toFixed(6);
     const lat = coords[1].toFixed(6);
-
-    emit('address-marker-coords', {
-        lon: lon,
-        lat: lat
-    });
 
     const marker = new Feature({
         geometry: new Point(fromLonLat([lon, lat])),
@@ -56,7 +51,16 @@ const handleMap = (evt) => {
     window.vectorLayer.getSource().clear();
     window.vectorLayer.getSource().addFeature(marker);
 
-    console.log(lat + ' ' + lon);
+    const response = await axios.get(
+        'https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=' +
+            lat +
+            '&lon=' +
+            lon
+    );
+
+    nominatimData.value = response.data;
+    emit('address-data', nominatimData.value);
+    zoomToAddress([response.data.lon, response.data.lat]);
 };
 
 const action = async () => {

@@ -16,6 +16,7 @@ import Search from '@/components/Icons/search.vue';
 import Truck from '@/components/Icons/truck.vue';
 import UserBlock from '@/components/Icons/user-block.vue';
 import Button from '@/components/UI/Button.vue';
+import MapRouteList from '@/components/UI/OpenLayers/MapRouteList.vue';
 import { useAuthStore } from '@/stores/auth';
 import { notify } from '@kyvg/vue3-notification';
 import { computed, onMounted, ref } from 'vue';
@@ -91,6 +92,8 @@ onMounted(async () => {
 
         data.value = routeListRes.data.data;
         routePoints.value = routePointsRes.data.data;
+
+        console.log(routePoints.value);
     } catch (err) {
         notify({
             title: 'Ошибка',
@@ -187,7 +190,9 @@ onMounted(async () => {
                                 </div>
                                 <div class="flex items-center gap-1">
                                     <div class="text-xs">
-                                        {{ routePoint.delivery_date }}
+                                        {{
+                                            routePoint.delivery_date ?? 'Пусто'
+                                        }}
                                     </div>
                                 </div>
                             </div>
@@ -214,17 +219,15 @@ onMounted(async () => {
                                 <div>
                                     <div class="text-xs">
                                         {{
-                                            routePoint.address_to.city +
+                                            routePoint.address.city +
                                             ' ул.' +
-                                            routePoint.address_to.street +
+                                            routePoint.address.street +
                                             ' д.' +
-                                            routePoint.address_to.building
+                                            routePoint.address.building
                                         }}
                                     </div>
                                     <div class="text-xs text-gray-400">
-                                        {{
-                                            routePoint.address_to.category.name
-                                        }}
+                                        {{ routePoint.address.category.name }}
                                     </div>
                                 </div>
                             </div>
@@ -263,6 +266,14 @@ onMounted(async () => {
                         <Download />
                         <div class="text-xs">Скачать для печати</div>
                     </div>
+                </div>
+
+                <div class="mt-6">
+                    <div class="text-base font-bold">Карта маршрута</div>
+                    <MapRouteList
+                        v-if="routePoints && routePoints.length"
+                        :data="routePoints"
+                    />
                 </div>
 
                 <div class="grid grid-cols-8 gap-5 mt-6">

@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class RoutePoint extends Model
 {
     protected $fillable = [
-        "address_from_id",
-        "address_to_id",
+        "address_id",
         "delivery_date",
         "route_list_id",
         "route_point_status_id",
+        "route_point_category_id",
     ];
 
     public function status()
@@ -19,14 +19,14 @@ class RoutePoint extends Model
         return $this->belongsTo(RoutePointStatus::class, 'route_point_status_id');
     }
 
-    public function addressFrom()
+    public function category()
     {
-        return $this->belongsTo(Address::class, 'address_from_id');
+        return $this->belongsTo(RoutePointCategory::class, 'route_point_category_id');
     }
 
-    public function addressTo()
+    public function address()
     {
-        return $this->belongsTo(Address::class, 'address_to_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     public function cargos()

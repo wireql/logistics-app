@@ -87,11 +87,6 @@ const handleAddressData = (dataRes) => {
     data.value.longitude = dataRes.lon;
 };
 
-const handleAddressCoords = (dataRes) => {
-    data.value.latitude = dataRes.lat;
-    data.value.longitude = dataRes.lon;
-};
-
 onMounted(async () => {
     loading.value = true;
 
@@ -142,10 +137,7 @@ onMounted(async () => {
 
     <hr class="border-gray-300 my-[24px]" />
 
-    <MapComponent
-        @address-data="handleAddressData"
-        @address-marker-coords="handleAddressCoords"
-    />
+    <MapComponent @address-data="handleAddressData" />
 
     <hr class="border-gray-300 my-[24px]" />
 
@@ -161,30 +153,35 @@ onMounted(async () => {
                         :error="data__errors.country[0]"
                         label="Страна"
                         placeholder="Россия"
+                        require
                     />
                     <InputGroup
                         v-model="data.region"
                         :error="data__errors.region[0]"
                         label="Регион"
                         placeholder="Ростовская область"
+                        require
                     />
                     <InputGroup
                         v-model="data.city"
                         :error="data__errors.city[0]"
                         label="Город, населенный пункт"
                         placeholder="Ростов-на-Дону"
+                        require
                     />
                     <InputGroup
                         v-model="data.street"
                         :error="data__errors.street[0]"
                         label="Улица"
                         placeholder="Малиновского"
+                        require
                     />
                     <InputGroup
                         v-model="data.building"
                         :error="data__errors.building[0]"
                         label="Дом, строение"
                         placeholder="125"
+                        require
                     />
                     <InputGroup
                         v-model="data.flat"
@@ -193,7 +190,10 @@ onMounted(async () => {
                         placeholder="125"
                     />
                     <div class="flex flex-col gap-[5px] w-full">
-                        <label class="text-sm opacity-[60%]">Категория</label>
+                        <label class="text-sm opacity-[60%]"
+                            >Категория
+                            <span class="text-red-400 text-base">*</span></label
+                        >
                         <select
                             v-model="data.address_category_id"
                             class="text-sm w-full border border-gray-300 focus:border-gray-700 bg-dark-100 py-[6px] px-[9px] rounded-[6px]"
@@ -228,12 +228,14 @@ onMounted(async () => {
                         :error="data__errors.latitude[0]"
                         label="Широта"
                         placeholder="47.238704"
+                        require
                     />
                     <InputGroup
                         v-model="data.longitude"
                         :error="data__errors.longitude[0]"
                         label="Долгота"
                         placeholder="39.614897"
+                        require
                     />
                 </div>
             </div>

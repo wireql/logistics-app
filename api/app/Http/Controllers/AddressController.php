@@ -12,9 +12,13 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $item = Address::query()->with('category')->paginate(10);
+        if ($request->has('paginate')) {
+            $item = Address::query()->with('category')->get();
+        } else {
+            $item = Address::query()->with('category')->paginate(10);
+        }
 
         return response()->json([
             "message" => "Список адресов успешно получен.",
@@ -43,14 +47,14 @@ class AddressController extends Controller
     public function show(Request $request, string $id)
     {
         $item = $request->user()->addresses()->find($id);
-        
-        if(!$item) {
+
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном адресе не найдена",
                 "data" => null
             ], 404);
         }
-        
+
         return response()->json([
             "message" => "Информация об адресе успешно получена",
             "data" => $item
@@ -64,7 +68,7 @@ class AddressController extends Controller
     {
         $item = $request->user()->addresses()->find($id);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном адресе не найдена",
                 "data" => null
@@ -88,7 +92,7 @@ class AddressController extends Controller
     {
         $item = $request->user()->addresses()->find($id);
 
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 "message" => "Информация о данном адресе не найдена",
                 "data" => null

@@ -1,4 +1,4 @@
-import http from "../index";
+import http from '../index';
 
 function getAddresses(token, params) {
     return http.get('address', {
@@ -10,7 +10,7 @@ function getAddresses(token, params) {
 }
 
 function getAddress(token, id) {
-    return http.get('address/'+id, {
+    return http.get('address/' + id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -34,7 +34,7 @@ function storeAddress(data, token) {
 }
 
 function updateAddress(data, id, token) {
-    return http.put('address/'+id, data, {
+    return http.put('address/' + id, data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -42,7 +42,7 @@ function updateAddress(data, id, token) {
 }
 
 function deleteAddress(token, id) {
-    return http.delete('address/'+id, {
+    return http.delete('address/' + id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -56,4 +56,4 @@ export {
     updateAddress,
     deleteAddress,
     getAddressCategories
-}
+};

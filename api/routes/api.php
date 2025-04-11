@@ -8,6 +8,7 @@ use App\Http\Controllers\CargoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RouteListController;
+use App\Http\Controllers\RoutePointCategoryController;
 use App\Http\Controllers\RoutePointController;
 use App\Http\Controllers\VehicleCetegorieController;
 use App\Http\Controllers\VehicleController;
@@ -37,6 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/body-types', [BodyTypeController::class, 'index']);
 
     Route::get('/address-categories', [AddressCategorieController::class, 'index']);
+    Route::get('/route-point-categories', [RoutePointCategoryController::class, 'index']);
 
     Route::get('/documents/route-lists/{routeList}', [DocumentController::class, 'routeListGenerate']);
 

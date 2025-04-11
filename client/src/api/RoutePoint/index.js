@@ -1,7 +1,16 @@
-import http from "../index";
+import http from '../index';
 
 function getRoutePoints(token, routeListId, params) {
     return http.get('route-lists/' + routeListId + '/route-points', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: params
+    });
+}
+
+function getRoutePointCategories(token, params) {
+    return http.get('route-point-categories', {
         headers: {
             Authorization: `Bearer ${token}`
         },
@@ -17,7 +26,4 @@ function storeRoutePoint(data, token, routeListId) {
     });
 }
 
-export {
-    storeRoutePoint,
-    getRoutePoints
-}
+export { storeRoutePoint, getRoutePoints, getRoutePointCategories };

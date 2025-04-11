@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AddressCategoriesSeeder::class,
+            RoutePointCategoriesSeeder::class,
             RoutePointStatusesSeeder::class,
             UserCategoriesSeeder::class,
             VehicleStatusesSeeder::class,
