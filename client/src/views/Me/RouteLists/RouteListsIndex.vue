@@ -1,17 +1,16 @@
 <script setup>
+import { notify } from '@kyvg/vue3-notification';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { deleteRouteList, getRouteLists } from '@/api/RouteList';
+import { useAuthStore } from '@/stores/auth';
 import Arrow from '@/components/Icons/arrow.vue';
 import Delete from '@/components/Icons/delete.vue';
 import Edit from '@/components/Icons/edit.vue';
 import Search from '@/components/Icons/search.vue';
 import Modal from '@/components/UI/Modal.vue';
-import TaskCard from '@/components/UI/Profile/TaskCard.vue';
-import TaskCard__Loading from '@/components/UI/Profile/TaskCard__Loading.vue';
 import router from '@/router';
-import { useAuthStore } from '@/stores/auth';
-import { notify } from '@kyvg/vue3-notification';
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 const response = ref([]);
 const loading = ref(false);

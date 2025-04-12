@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref(localStorage.getItem('token') || null);
@@ -8,12 +8,12 @@ export const useAuthStore = defineStore('auth', () => {
     const setUser = (data) => {
         user.value = data;
         localStorage.setItem('user', JSON.stringify(data));
-    }
-    
+    };
+
     const setToken = (data) => {
         token.value = data;
         localStorage.setItem('token', data);
-    }
+    };
 
     const logout = () => {
         token.value = null;
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
 
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-    }
+    };
 
     return {
         token,
@@ -29,5 +29,5 @@ export const useAuthStore = defineStore('auth', () => {
         setUser,
         setToken,
         logout
-    }
-})
+    };
+});

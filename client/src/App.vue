@@ -1,15 +1,11 @@
 <script setup>
-    import { RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
     <div>
         <RouterView />
     </div>
-    
+
     <notifications />
 </template>
-
-<style scoped>
-
-</style>
